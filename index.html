@@ -10,57 +10,49 @@
   <meta property="og:description" content="Don't follow the noise. Understand the signal." />
   <meta property="og:type" content="website" />
   <title>VEYRA — Market Intelligence</title>
-  
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600&family=IBM+Plex+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet" />
-  
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500;600&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23090A0D' width='32' height='32'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Syne,sans-serif' font-size='16' font-weight='700' fill='%23D6B56A' letter-spacing='1'%3EV%3C/text%3E%3C/svg%3E" />
-  
+  <script>document.documentElement.classList.add("js");</script>
   <style>
     /* ============================================================
-       VEYRA — Design Tokens · Stage 1 & 2 INTELLIGENCE LAYER
-       Philosophy: SEE → UNDERSTAND → DECIDE
+       VEYRA — FOUNDATION + THE INTELLIGENCE LAYER
+       SEE → UNDERSTAND → DECIDE
        ============================================================ */
+
     :root {
       --c-obsidian: #090A0D;
       --c-graphite: #15171C;
-      --c-graphite-light: #1D2027;
       --c-ivory: #F2F0E9;
       --c-gold: #D6B56A;
-      --c-gold-dim: rgba(214, 181, 106, 0.15);
-      --c-gold-glow: rgba(214, 181, 106, 0.35);
       --data-positive: #4A9B73;
       --data-negative: #C45C4A;
       --data-neutral: #7A8494;
       --data-attention: #C4A35A;
       --data-blue: #5B7C99;
-      
       --font-brand: "Syne", "Avenir Next", "Futura", sans-serif;
       --font-display: "Cormorant Garamond", "Iowan Old Style", Palatino, Georgia, serif;
       --font-ui: "Inter", "Helvetica Neue", system-ui, sans-serif;
       --font-mono: "IBM Plex Mono", "SF Mono", ui-monospace, monospace;
-      
       --ease-silk: cubic-bezier(0.22, 1, 0.36, 1);
       --ease-precise: cubic-bezier(0.4, 0, 0.2, 1);
       --duration-slow: 1.4s;
       --duration-med: 0.7s;
-      
       --header-h: 5.5rem;
       --pad-x: clamp(1.25rem, 4vw, 3.5rem);
-      --section-space: clamp(6rem, 14vh, 12rem);
-      
       --text-ivory: var(--c-ivory);
       --text-muted: rgba(242, 240, 233, 0.48);
       --text-faint: rgba(242, 240, 233, 0.28);
+      --rule: rgba(242, 240, 233, 0.08);
+      --viewport: 100vh;
     }
 
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    @supports (height: 100svh) {
+      :root { --viewport: 100svh; }
     }
 
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html {
       background: var(--c-obsidian);
       color: var(--c-ivory);
@@ -72,11 +64,6 @@
       text-rendering: optimizeLegibility;
       scroll-behavior: smooth;
     }
-
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-    }
-
     body {
       min-height: 100dvh;
       background: var(--c-obsidian);
@@ -84,27 +71,32 @@
       overflow-x: hidden;
       overscroll-behavior: none;
     }
-
-    ::selection {
-      background: rgba(214, 181, 106, 0.28);
-      color: var(--c-ivory);
-    }
-
-    :focus-visible {
-      outline: 1px solid var(--c-gold);
-      outline-offset: 3px;
-    }
-
-    a {
+    ::selection { background: rgba(214, 181, 106, 0.28); color: var(--c-ivory); }
+    :focus-visible { outline: 1px solid var(--c-gold); outline-offset: 5px; }
+    a { color: inherit; text-decoration: none; }
+    button {
+      font: inherit;
       color: inherit;
-      text-decoration: none;
+      background: none;
+      border: 0;
+      border-radius: 0;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
     }
-
-    img, svg, canvas {
-      display: block;
-      max-width: 100%;
+    button:disabled { opacity: 0.45; cursor: wait; }
+    img, svg, canvas { display: block; max-width: 100%; }
+    h1, h2, h3 { font-weight: 400; }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
-
     .skip {
       position: absolute;
       left: -999px;
@@ -117,18 +109,12 @@
       letter-spacing: 0.12em;
       text-transform: uppercase;
     }
-    .skip:focus {
-      left: 1rem;
-      top: 1rem;
-    }
-
+    .skip:focus { left: 1rem; top: 1rem; }
     .num {
       font-family: var(--font-mono);
       font-variant-numeric: tabular-nums lining-nums;
       font-feature-settings: "tnum" 1, "lnum" 1;
     }
-
-    /* Grain */
     .grain {
       position: fixed;
       inset: 0;
@@ -142,9 +128,7 @@
     /* Header */
     .site-header {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      inset: 0 0 auto;
       z-index: 40;
       display: flex;
       align-items: center;
@@ -152,27 +136,24 @@
       height: var(--header-h);
       padding: 0 var(--pad-x);
       background: transparent;
-      transition: background 0.8s var(--ease-silk), backdrop-filter 0.8s var(--ease-silk), border-color 0.8s var(--ease-silk);
       border-bottom: 1px solid transparent;
+      transition: background 0.8s var(--ease-silk), backdrop-filter 0.8s var(--ease-silk), border-color 0.8s var(--ease-silk);
     }
     .site-header.is-scrolled {
       background: rgba(9, 10, 13, 0.78);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
-      border-bottom-color: rgba(242, 240, 233, 0.06);
+      border-bottom-color: rgba(242, 240, 233, 0.05);
     }
-
     .wordmark {
       font-family: var(--font-brand);
       font-weight: 700;
       font-size: 0.92rem;
       letter-spacing: 0.46em;
-      color: var(--c-ivory);
       padding-left: 0.46em;
       transition: color 0.6s var(--ease-silk);
     }
     .wordmark:hover { color: var(--c-gold); }
-
     .cta {
       position: relative;
       isolation: isolate;
@@ -205,15 +186,12 @@
       border-color: var(--c-gold);
       outline: none;
     }
-    .cta:hover::before, .cta:focus-visible::before {
-      transform: scaleX(1);
-    }
+    .cta:hover::before, .cta:focus-visible::before { transform: scaleX(1); }
 
-    /* Hero */
+    /* Stage 1 — Hero */
     .hero {
       position: relative;
-      min-height: 100dvh;
-      min-height: 100vh;
+      min-height: var(--viewport);
       overflow: hidden;
       background: var(--c-obsidian);
     }
@@ -230,14 +208,14 @@
       inset: 0;
       z-index: 1;
       pointer-events: none;
-      background: radial-gradient(ellipse 72% 58% at 50% 46%, rgba(9, 10, 13, 0) 0%, rgba(9, 10, 13, 0.28) 52%, rgba(9, 10, 13, 0.78) 100%),
-                  linear-gradient(180deg, rgba(9, 10, 13, 0.55) 0%, rgba(9, 10, 13, 0) 22%, rgba(9, 10, 13, 0) 72%, rgba(9, 10, 13, 0.85) 100%);
+      background:
+        radial-gradient(ellipse 72% 58% at 50% 46%, rgba(9,10,13,0) 0%, rgba(9,10,13,0.28) 52%, rgba(9,10,13,0.78) 100%),
+        linear-gradient(180deg, rgba(9,10,13,0.55) 0%, rgba(9,10,13,0) 22%, rgba(9,10,13,0) 72%, rgba(9,10,13,0.7) 100%);
     }
     .hero-inner {
       position: relative;
       z-index: 2;
-      min-height: 100dvh;
-      min-height: 100vh;
+      min-height: var(--viewport);
       display: grid;
       grid-template-rows: 1fr auto 1fr;
       padding: calc(var(--header-h) + 0.5rem) var(--pad-x) 2.5rem;
@@ -246,8 +224,6 @@
     .hero-identity {
       align-self: end;
       padding-bottom: clamp(1.5rem, 6vh, 4.5rem);
-      opacity: 0;
-      transform: translateY(16px);
     }
     .brand-name {
       font-family: var(--font-brand);
@@ -255,7 +231,6 @@
       font-size: clamp(0.72rem, 1.1vw, 0.82rem);
       letter-spacing: 0.62em;
       padding-left: 0.62em;
-      color: var(--c-ivory);
       text-transform: uppercase;
     }
     .brand-rule {
@@ -265,12 +240,9 @@
       margin: 0.95rem auto 0.9rem;
       background: var(--c-gold);
       opacity: 0.7;
-      transform: scaleX(0);
       transform-origin: center;
     }
     .brand-category {
-      font-family: var(--font-ui);
-      font-weight: 400;
       font-size: clamp(0.62rem, 1vw, 0.72rem);
       letter-spacing: 0.42em;
       padding-left: 0.42em;
@@ -289,25 +261,15 @@
       font-size: clamp(2.35rem, 8.2vw, 6.4rem);
       line-height: 1.02;
       letter-spacing: 0.02em;
-      color: var(--c-ivory);
       font-kerning: normal;
     }
-    .ph-word {
-      display: block;
-      opacity: 0;
-      transform: translateY(22px);
-    }
-    .gold-dot {
-      color: var(--c-gold);
-      font-style: italic;
-      margin-left: 0.02em;
-    }
+    .ph-word { display: block; }
+    .gold-dot { color: var(--c-gold); font-style: italic; margin-left: 0.02em; }
     .triad {
       width: min(168px, 42vw);
       height: 12px;
       margin: 2.1rem auto 0;
       overflow: visible;
-      opacity: 0;
     }
     .triad-line {
       fill: none;
@@ -316,14 +278,12 @@
       stroke-linecap: round;
       opacity: 0.55;
       stroke-dasharray: 200;
-      stroke-dashoffset: 200;
+      stroke-dashoffset: 0;
     }
-    .triad circle { fill: var(--c-gold); opacity: 0; }
+    .triad circle { fill: var(--c-gold); }
     .hero-promise {
       align-self: start;
       padding-top: clamp(1.6rem, 6vh, 4.8rem);
-      opacity: 0;
-      transform: translateY(16px);
     }
     .promise {
       font-family: var(--font-brand);
@@ -336,15 +296,39 @@
     }
     .position {
       margin-top: 1.35rem;
-      font-family: var(--font-ui);
       font-weight: 300;
       font-size: clamp(0.58rem, 0.95vw, 0.68rem);
       letter-spacing: 0.36em;
       text-transform: uppercase;
       color: var(--text-faint);
     }
+    .hero-scroll {
+      position: absolute;
+      z-index: 3;
+      bottom: 1.3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.5rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.53rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transition: color 0.5s var(--ease-silk);
+    }
+    .hero-scroll svg { width: 12px; height: 16px; color: var(--c-gold); }
+    .hero-scroll:hover { color: var(--c-ivory); }
 
-    /* Entrance animations */
+    .js .hero-identity, .js .hero-promise { opacity: 0; transform: translateY(16px); }
+    .js .ph-word { opacity: 0; transform: translateY(22px); }
+    .js .brand-rule { transform: scaleX(0); }
+    .js .triad, .js .triad circle { opacity: 0; }
+    .js .triad-line { stroke-dashoffset: 200; }
+    .js .hero-scroll { opacity: 0; }
     .is-ready .hero-identity { animation: rise 1.5s var(--ease-silk) 0.15s both; }
     .is-ready .brand-rule { animation: drawRule 1.6s var(--ease-silk) 0.55s both; }
     .is-ready .ph-word:nth-child(1) { animation: rise 1.55s var(--ease-silk) 0.65s both; }
@@ -354,508 +338,778 @@
     .is-ready .triad-line { animation: dash 2.2s var(--ease-silk) 2s both; }
     .is-ready .triad circle { animation: fade 1.2s var(--ease-silk) 2.3s both; }
     .is-ready .hero-promise { animation: rise 1.6s var(--ease-silk) 2.15s both; }
+    .is-ready .hero-scroll { animation: fade 1.6s var(--ease-silk) 2.8s both; }
 
     @keyframes rise {
       from { opacity: 0; transform: translateY(18px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    @keyframes fade {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+    @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
     @keyframes drawRule {
       from { transform: scaleX(0); opacity: 0; }
       to { transform: scaleX(1); opacity: 0.7; }
     }
-    @keyframes dash {
-      to { stroke-dashoffset: 0; }
-    }
+    @keyframes dash { to { stroke-dashoffset: 0; } }
 
-    /* ============================================================
-       STAGE 2 — INTELLIGENCE LAYER STYLES
-       ============================================================ */
-
-    /* Scroll reveal primitive */
-    .reveal {
-      opacity: 0;
-      transform: translateY(32px);
-      transition: opacity 1.2s var(--ease-silk), transform 1.2s var(--ease-silk);
-      will-change: opacity, transform;
-    }
-    .reveal.is-visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .reveal-delay-1 { transition-delay: 0.15s; }
-    .reveal-delay-2 { transition-delay: 0.3s; }
-    .reveal-delay-3 { transition-delay: 0.45s; }
-    .reveal-delay-4 { transition-delay: 0.6s; }
-
-    /* Common Section Architecture */
-    .intel-section {
+    /* Stage 2 — Shared narrative system */
+    .story {
       position: relative;
-      padding: var(--section-space) var(--pad-x);
-      max-width: 1400px;
-      margin: 0 auto;
+      min-height: calc(var(--viewport) * 1.65);
+      scroll-margin-top: var(--header-h);
     }
-
-    .section-num-tag {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.28em;
-      color: var(--c-gold);
-      text-transform: uppercase;
-      margin-bottom: 1.2rem;
+    .story::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: var(--pad-x);
+      right: var(--pad-x);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--rule) 18%, var(--rule) 82%, transparent);
+    }
+    .story-see { min-height: calc(var(--viewport) * 1.85); }
+    .story-understand { min-height: calc(var(--viewport) * 1.95); }
+    .story-signal { min-height: calc(var(--viewport) * 1.55); }
+    .entry-anchor {
+      position: absolute;
+      top: 0;
+      width: 1px;
+      height: 1px;
+      scroll-margin-top: var(--header-h);
+    }
+    .scene-frame {
+      position: sticky;
+      top: var(--header-h);
+      min-height: calc(var(--viewport) - var(--header-h));
+      padding: 2.6rem var(--pad-x);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .scene-width { position: relative; width: 100%; max-width: 1180px; margin-inline: auto; }
+    .scene-head { position: relative; z-index: 2; width: 100%; text-align: center; }
+    .chapter-label {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      justify-content: center;
+      gap: 0.85rem;
+      margin-bottom: 2rem;
+      font-family: var(--font-mono);
+      font-size: 0.57rem;
+      font-weight: 400;
+      letter-spacing: 0.21em;
+      line-height: 1.5;
+      text-transform: uppercase;
+      color: var(--text-muted);
     }
-    .section-num-tag::after {
+    .chapter-index { color: var(--c-gold); letter-spacing: 0.04em; }
+    .chapter-rule { width: 24px; height: 1px; background: rgba(214, 181, 106, 0.35); }
+    .scene-title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(2.8rem, min(6.5vw, 10vh), 6rem);
+      line-height: 0.99;
+      letter-spacing: -0.02em;
+    }
+    .scene-title > span { display: block; }
+    .scene-description {
+      margin: 1.7rem auto 0;
+      max-width: 34rem;
+      color: var(--text-muted);
+      font-size: clamp(0.78rem, 1.05vw, 0.88rem);
+      font-weight: 300;
+      line-height: 1.9;
+    }
+    .chapter-word {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-style: italic;
+      font-size: clamp(4rem, min(10.5vw, 13vh), 9rem);
+      line-height: 0.93;
+      letter-spacing: 0.015em;
+    }
+    .section-kicker {
+      margin-top: 1.45rem;
+      font-family: var(--font-brand);
+      font-size: clamp(0.58rem, 0.94vw, 0.72rem);
+      font-weight: 500;
+      letter-spacing: 0.23em;
+      line-height: 1.7;
+      text-transform: uppercase;
+      color: rgba(242, 240, 233, 0.7);
+    }
+    .visual-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .js .reveal { opacity: 0; transform: translateY(18px); }
+    .js .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 1.25s var(--ease-silk), transform 1.25s var(--ease-silk);
+    }
+    .text-control {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.65rem;
+      padding: 0.65rem 0;
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.09em;
+      color: var(--text-muted);
+      transition: color 0.5s var(--ease-silk);
+    }
+    .text-control:hover, .text-control:focus-visible { color: var(--c-gold); }
+    .text-control svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+    /* 01 — THE MARKET: fragments become ordered information */
+    .market-visual {
+      position: relative;
+      width: 100%;
+      height: clamp(170px, 23vh, 220px);
+      margin: 1.65rem auto 1.5rem;
+    }
+    .market-signals {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      align-content: center;
+      gap: 2rem 1rem;
+      height: 100%;
+      list-style: none;
+      text-align: center;
+    }
+    .market-signal {
+      font-family: var(--font-mono);
+      font-size: clamp(0.61rem, 0.95vw, 0.74rem);
+      letter-spacing: 0.045em;
+      color: var(--c-ivory);
+      white-space: nowrap;
+    }
+    .market-visual.is-animated .market-signals { position: absolute; inset: 0; display: block; }
+    .market-visual.is-animated .market-signal {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      will-change: transform, opacity;
+    }
+    .market-signal::after {
       content: "";
-      height: 1px;
-      width: 40px;
+      display: block;
+      width: 1px;
+      height: 6px;
+      margin: 0.8rem auto 0;
       background: var(--c-gold);
+      opacity: 0.5;
+    }
+    .market-thesis {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 400;
+      line-height: 1.3;
+      color: rgba(242, 240, 233, 0.73);
+    }
+    .market-thesis em { color: var(--c-gold); font-weight: 400; }
+    .market-end-rule {
+      width: 1px;
+      height: 28px;
+      margin: 1.8rem auto 0;
+      background: linear-gradient(var(--c-gold), transparent);
       opacity: 0.4;
     }
 
-    .display-title-huge {
-      font-family: var(--font-brand);
-      font-weight: 800;
-      font-size: clamp(2.2rem, 5.5vw, 5.2rem);
-      line-height: 1.04;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--c-ivory);
-      margin-bottom: 2rem;
-    }
-
-    /* SECTION 1: THE MARKET */
-    .market-section {
-      border-top: 1px solid rgba(242, 240, 233, 0.05);
-    }
-    .market-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 3.5rem;
-      margin-top: 3rem;
-    }
-    @media (min-width: 900px) {
-      .market-grid {
-        grid-template-columns: 1.1fr 0.9fr;
-        align-items: start;
-      }
-    }
-    .market-intro {
-      font-family: var(--font-display);
-      font-size: clamp(1.4rem, 2.8vw, 2.2rem);
-      font-weight: 300;
-      line-height: 1.35;
-      color: rgba(242, 240, 233, 0.88);
-    }
-    .market-key-statement {
-      margin-top: 3rem;
-      padding-top: 2rem;
-      border-top: 1px solid rgba(214, 181, 106, 0.2);
-      font-family: var(--font-brand);
-      font-size: clamp(1rem, 1.8vw, 1.4rem);
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      color: var(--c-gold);
-      text-transform: uppercase;
-    }
-
-    /* Fragmented Signal Matrix */
-    .signal-fragments {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.85rem;
+    /* 02 — SEE: a field of observation, never a dashboard */
+    .story-see .scene-frame { padding-block: 2rem; }
+    .observation-visual {
       position: relative;
+      width: 100%;
+      max-width: 1060px;
+      height: clamp(285px, 36vh, 340px);
+      margin: 1.6rem auto 0.9rem;
+      isolation: isolate;
     }
-    @media (min-width: 500px) {
-      .signal-fragments {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-    .fragment-card {
-      background: rgba(21, 23, 28, 0.5);
-      border: 1px solid rgba(242, 240, 233, 0.07);
-      padding: 1.25rem 1.4rem;
-      border-radius: 2px;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.5s var(--ease-silk);
-    }
-    .fragment-card::before {
+    .observation-visual::before {
       content: "";
       position: absolute;
-      top: 0; left: 0; width: 2px; height: 100%;
-      background: var(--c-gold);
-      opacity: 0;
-      transition: opacity 0.5s var(--ease-silk);
+      inset: 5% 15%;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center, rgba(214,181,106,0.027), transparent 67%);
     }
-    .fragment-card:hover {
-      background: rgba(21, 23, 28, 0.9);
-      border-color: rgba(214, 181, 106, 0.3);
-      transform: translateY(-2px);
-    }
-    .fragment-card:hover::before {
-      opacity: 1;
-    }
-    .frag-title {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--c-ivory);
-      margin-bottom: 0.4rem;
-    }
-    .frag-status {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      color: var(--text-muted);
+    .observe-node {
+      position: absolute;
+      z-index: 3;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      gap: 0.55rem;
+      padding: 0.65rem 0.25rem;
+      transform: translate(-50%, -50%);
+      font-family: var(--font-mono);
+      font-size: clamp(0.57rem, 0.9vw, 0.67rem);
+      letter-spacing: 0.035em;
+      white-space: nowrap;
+      color: rgba(242, 240, 233, 0.45);
+      transition: color 0.8s var(--ease-silk);
     }
-    .frag-dot {
+    .observe-node:hover, .observe-node.is-active { color: var(--c-gold); }
+    .node-dot {
+      position: relative;
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      flex: 0 0 4px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: 0.7;
+    }
+    .node-dot::after {
+      content: "";
+      position: absolute;
+      inset: -5px;
+      border: 1px solid currentColor;
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(0.65);
+      transition: opacity 0.8s var(--ease-silk), transform 0.8s var(--ease-silk);
+    }
+    .observe-node.is-active .node-dot::after { opacity: 0.35; transform: scale(1); }
+    .lens-btc { left: 24%; top: 24%; }
+    .lens-eth { left: 76%; top: 24%; }
+    .lens-cap { left: 13%; top: 49%; }
+    .lens-dominance { left: 87%; top: 49%; }
+    .lens-volatility { left: 26%; top: 75%; }
+    .lens-funding { left: 74%; top: 75%; }
+    .lens-interest { left: 50%; top: 7%; }
+    .lens-flows { left: 37%; top: 94%; }
+    .lens-macro { left: 65%; top: 94%; }
+    .observation-focus {
+      position: absolute;
+      z-index: 2;
+      left: 50%;
+      top: 50%;
+      width: 43%;
+      height: 135px;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      pointer-events: none;
+    }
+    .observation-focus::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      inset: -12% -8%;
+      background: radial-gradient(ellipse, rgba(9,10,13,0.97) 25%, rgba(9,10,13,0.73) 49%, transparent 72%);
+    }
+    .focus-content {
+      width: 100%;
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.38s var(--ease-silk), transform 0.5s var(--ease-silk);
+    }
+    .focus-content.is-switching { opacity: 0; transform: translateY(5px); }
+    .observation-name {
+      margin-bottom: 0.65rem;
+      font-family: var(--font-mono);
+      font-size: 0.57rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+    }
+    .observation-value {
+      font-family: var(--font-mono);
+      font-size: clamp(1.65rem, 3vw, 2.5rem);
+      font-weight: 400;
+      line-height: 1.2;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.055em;
+      white-space: nowrap;
+    }
+    .observation-value.is-concept {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3.1vw, 2.5rem);
+      font-style: italic;
+      letter-spacing: 0;
+    }
+    .observation-detail {
+      margin-top: 0.7rem;
+      font-size: 0.59rem;
+      font-weight: 300;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+    .observation-source {
+      margin-top: 0.32rem;
+      font-family: var(--font-mono);
+      font-size: 0.51rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+    .observation-bottom {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      max-width: 950px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 1.5rem;
+      margin: 1rem auto 0;
+    }
+    .observation-state {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-family: var(--font-mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.035em;
+      color: var(--text-muted);
+    }
+    .status-dot {
       width: 4px;
       height: 4px;
       border-radius: 50%;
       background: var(--data-neutral);
-      display: inline-block;
+      flex-shrink: 0;
+      transition: background 0.7s var(--ease-silk);
     }
-    .fragment-card.active .frag-dot {
-      background: var(--c-gold);
-      box-shadow: 0 0 8px var(--c-gold);
-    }
-
-    /* SECTION 2: SEE */
-    .see-section {
-      border-top: 1px solid rgba(242, 240, 233, 0.05);
-      position: relative;
-    }
-    .see-header {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-bottom: 3.5rem;
-    }
-    .see-subtitle {
-      font-family: var(--font-brand);
-      font-size: 0.8rem;
-      letter-spacing: 0.4em;
-      color: var(--text-muted);
-      text-transform: uppercase;
-    }
-
-    /* Telemetry Visual Container */
-    .telemetry-container {
-      background: rgba(15, 17, 21, 0.85);
-      border: 1px solid rgba(214, 181, 106, 0.18);
-      border-radius: 4px;
-      padding: clamp(1.5rem, 3vw, 2.5rem);
-      position: relative;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 24px 64px rgba(0,0,0,0.4);
-    }
-    .telemetry-topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 1.25rem;
-      border-bottom: 1px solid rgba(242, 240, 233, 0.08);
-      margin-bottom: 2rem;
-      font-family: var(--font-mono);
-      font-size: 0.68rem;
-      letter-spacing: 0.2em;
-      color: var(--text-muted);
-    }
-    .live-pulse-badge {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: var(--c-gold);
-    }
-    .pulse-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--c-gold);
-      animation: pulseGlow 2s infinite ease-in-out;
-    }
-    @keyframes pulseGlow {
-      0%, 100% { opacity: 0.3; transform: scale(0.9); }
-      50% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 10px var(--c-gold); }
-    }
-
-    /* Telemetry Grid */
-    .telemetry-grid {
+    .observation-state.is-connected .status-dot { background: var(--data-positive); }
+    .observation-controls { display: flex; align-items: center; gap: 0.55rem; }
+    .round-control {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.5rem;
-    }
-    .telemetry-node {
-      background: rgba(256, 256, 256, 0.02);
-      border: 1px solid rgba(242, 240, 233, 0.05);
-      padding: 1.2rem;
-      border-radius: 2px;
-      transition: border-color 0.4s var(--ease-silk);
-    }
-    .telemetry-node:hover {
-      border-color: rgba(214, 181, 106, 0.3);
-    }
-    .telemetry-label {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      border: 1px solid rgba(242, 240, 233, 0.1);
+      border-radius: 50%;
       color: var(--text-muted);
-      text-transform: uppercase;
-      margin-bottom: 0.6rem;
-      display: flex;
-      justify-content: space-between;
+      transition: color 0.5s var(--ease-silk), border-color 0.5s var(--ease-silk), background 0.5s var(--ease-silk);
     }
-    .telemetry-value {
-      font-family: var(--font-mono);
-      font-size: 1.45rem;
-      font-weight: 500;
-      color: var(--c-ivory);
-      letter-spacing: -0.02em;
-      display: flex;
-      align-items: baseline;
-      gap: 0.6rem;
-    }
-    .telemetry-change {
-      font-size: 0.72rem;
-      font-weight: 400;
-    }
-    .telemetry-change.pos { color: var(--data-positive); }
-    .telemetry-change.neg { color: var(--data-negative); }
-    .telemetry-change.neu { color: var(--data-attention); }
-
-    /* Canvas Graph overlay */
-    .telemetry-graph-wrap {
-      margin-top: 2rem;
-      height: 180px;
-      width: 100%;
-      position: relative;
-    }
-    #see-graph-canvas {
-      width: 100%;
-      height: 100%;
-    }
-
-    /* SECTION 3: UNDERSTAND */
-    .understand-section {
-      border-top: 1px solid rgba(242, 240, 233, 0.05);
-    }
-    .understand-header {
-      margin-bottom: 4rem;
-    }
-    
-    /* Process Progression */
-    .progression-flow {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      margin-bottom: 5rem;
-    }
-    @media (min-width: 850px) {
-      .progression-flow {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0;
-      }
-    }
-    .flow-step {
-      flex: 1;
-      background: rgba(21, 23, 28, 0.4);
-      border: 1px solid rgba(242, 240, 233, 0.06);
-      padding: 1.5rem 1.2rem;
-      position: relative;
-      text-align: center;
-      transition: all 0.5s var(--ease-silk);
-    }
-    .flow-step.active-step {
-      border-color: rgba(214, 181, 106, 0.4);
-      background: rgba(214, 181, 106, 0.04);
-    }
-    .flow-step-num {
-      font-family: var(--font-mono);
-      font-size: 0.6rem;
+    .round-control:hover, .round-control:focus-visible {
       color: var(--c-gold);
-      letter-spacing: 0.2em;
-      margin-bottom: 0.4rem;
+      border-color: rgba(214,181,106,0.4);
+      background: rgba(214,181,106,0.025);
     }
-    .flow-step-title {
-      font-family: var(--font-brand);
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 0.25em;
-      color: var(--c-ivory);
-      text-transform: uppercase;
-    }
-    .flow-arrow {
-      display: none;
-      color: rgba(214, 181, 106, 0.4);
-      font-family: var(--font-mono);
-      padding: 0 0.5rem;
-    }
-    @media (min-width: 850px) {
-      .flow-arrow { display: block; }
-    }
-
-    /* Matrix Convergence Visual */
-    .convergence-matrix {
-      background: radial-gradient(circle at center, rgba(21, 23, 28, 0.8) 0%, rgba(9, 10, 13, 0.95) 100%);
-      border: 1px solid rgba(242, 240, 233, 0.08);
-      padding: clamp(2rem, 5vw, 4rem);
-      position: relative;
-      overflow: hidden;
-    }
-    .matrix-title {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.3em;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-    .fusion-wrapper {
+    .round-control svg { width: 12px; height: 12px; }
+    .play-icon { display: none; }
+    .is-paused .pause-icon { display: none; }
+    .is-paused .play-icon { display: block; }
+    .source-disclosure { position: relative; justify-self: end; }
+    .source-disclosure summary {
+      list-style: none;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 2rem;
+      gap: 0.55rem;
+      padding: 0.65rem 0;
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: color 0.5s var(--ease-silk);
     }
-    .inputs-row {
+    .source-disclosure summary::-webkit-details-marker { display: none; }
+    .source-disclosure summary:hover, .source-disclosure[open] summary { color: var(--c-gold); }
+    .source-disclosure summary svg { width: 12px; height: 12px; }
+    .source-panel {
+      position: absolute;
+      right: 0;
+      bottom: calc(100% + 0.9rem);
+      width: 330px;
+      max-width: calc(100vw - 2.5rem);
+      padding: 1.4rem;
+      border: 1px solid rgba(214,181,106,0.2);
+      background: rgba(15,16,20,0.98);
+      box-shadow: 0 16px 50px rgba(0,0,0,0.35);
+      text-align: left;
+    }
+    .source-panel h3 {
+      margin-bottom: 0.85rem;
+      font-family: var(--font-mono);
+      font-size: 0.61rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+    }
+    .source-panel p {
+      margin-top: 0.75rem;
+      font-size: 0.67rem;
+      line-height: 1.85;
+      color: rgba(242,240,233,0.6);
+    }
+    .source-panel .text-control { margin-top: 0.65rem; color: var(--c-gold); }
+    .source-panel .source-status { font-family: var(--font-mono); font-size: 0.56rem; }
+    .observation-note {
+      margin-top: 1.2rem;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 0.51rem;
+      letter-spacing: 0.025em;
+      color: var(--text-muted);
+    }
+    .interactive-only { display: none; }
+    .js .interactive-only { display: flex; }
+
+    /* 03 — UNDERSTAND: variables become a market context */
+    .intelligence-path {
+      position: relative;
+      z-index: 3;
       display: flex;
-      flex-wrap: wrap;
+      align-items: center;
       justify-content: center;
-      gap: 0.75rem;
-      max-width: 800px;
+      flex-wrap: wrap;
+      gap: 0.55rem 1.15rem;
+      width: 100%;
+      margin: 2.4rem auto 0.6rem;
+      list-style: none;
     }
-    .input-chip {
+    .intelligence-path li { display: flex; align-items: center; gap: 1.15rem; }
+    .stage-button {
+      position: relative;
+      padding: 0.7rem 0.15rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: clamp(0.53rem, 0.8vw, 0.63rem);
+      letter-spacing: 0.12em;
+      transition: color 0.6s var(--ease-silk);
+    }
+    .stage-button::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0.25rem;
+      height: 1px;
+      background: var(--c-gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.7s var(--ease-silk);
+    }
+    .stage-button.is-past { color: rgba(242,240,233,0.72); }
+    .stage-button:hover, .stage-button.is-active { color: var(--c-gold); }
+    .stage-button.is-active::after { transform: scaleX(1); }
+    .path-arrow { color: rgba(214,181,106,0.38); font-size: 0.7rem; }
+    .context-visual {
+      position: relative;
+      width: 100%;
+      max-width: 1000px;
+      height: clamp(240px, 32vh, 295px);
+      margin: 1.3rem auto 0;
+    }
+    .context-equation {
+      position: absolute;
+      z-index: 2;
+      top: 5%;
+      left: 3%;
+      right: 3%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.7rem;
+    }
+    .context-token {
+      font-family: var(--font-mono);
+      font-size: clamp(0.55rem, 0.9vw, 0.67rem);
+      letter-spacing: 0.085em;
+      color: rgba(242,240,233,0.8);
+      white-space: nowrap;
+    }
+    .equation-plus {
       font-family: var(--font-mono);
       font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      padding: 0.6rem 1.1rem;
-      background: rgba(242, 240, 233, 0.03);
-      border: 1px solid rgba(242, 240, 233, 0.12);
-      color: var(--c-ivory);
-      text-transform: uppercase;
-      transition: all 0.4s var(--ease-silk);
+      color: rgba(214,181,106,0.45);
     }
-    .input-chip:hover {
-      border-color: var(--c-gold);
+    .context-core {
+      position: absolute;
+      z-index: 1;
+      left: 50%;
+      top: 52%;
+      width: 56px;
+      height: 56px;
+      transform: translate(-50%, -50%);
+      display: grid;
+      place-items: center;
       color: var(--c-gold);
-      box-shadow: 0 0 15px rgba(214, 181, 106, 0.15);
+      background: radial-gradient(circle, var(--c-obsidian) 40%, transparent 72%);
     }
-    .fusion-funnel {
-      width: 2px;
-      height: 60px;
-      background: linear-gradient(180deg, rgba(242,240,233,0.2) 0%, var(--c-gold) 100%);
-      position: relative;
-    }
-    .fusion-output {
-      font-family: var(--font-brand);
-      font-size: clamp(1.1rem, 2.2vw, 1.8rem);
-      font-weight: 700;
-      letter-spacing: 0.35em;
-      color: var(--c-gold);
-      text-transform: uppercase;
-      padding: 1.2rem 2.5rem;
-      border: 1px solid var(--c-gold);
-      background: rgba(214, 181, 106, 0.06);
-      box-shadow: 0 0 35px rgba(214, 181, 106, 0.12);
+    .context-core svg { width: 42px; height: 42px; overflow: visible; }
+    .context-output {
+      position: absolute;
+      z-index: 2;
+      top: 70%;
+      left: 50%;
+      width: 100%;
+      transform: translateX(-50%);
       text-align: center;
     }
-
-    /* SECTION 4: SIGNAL */
-    .signal-section {
-      border-top: 1px solid rgba(242, 240, 233, 0.05);
-      position: relative;
-    }
-    .signal-stage-container {
-      position: relative;
-      height: 480px;
-      width: 100%;
-      border: 1px solid rgba(214, 181, 106, 0.15);
-      border-radius: 4px;
-      overflow: hidden;
-      background: #090A0D;
-      margin-top: 3rem;
-    }
-    #signal-extraction-canvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-    }
-    .signal-overlay-content {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: clamp(1.5rem, 4vw, 3rem);
-      z-index: 5;
-    }
-    .signal-microcopy {
-      font-family: var(--font-brand);
-      font-size: clamp(1.4rem, 3.2vw, 2.6rem);
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      color: var(--c-ivory);
-      text-transform: uppercase;
-      line-height: 1.2;
-    }
-    .signal-microcopy span {
-      color: var(--c-gold);
+    .context-down {
       display: block;
+      margin-bottom: 0.55rem;
+      font-family: var(--font-ui);
+      font-size: 1.15rem;
+      line-height: 1;
+      font-weight: 300;
+      color: var(--c-gold);
     }
-    .signal-metrics-bar {
+    .context-output p {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 2.7vw, 2.1rem);
+      font-style: italic;
+      letter-spacing: 0.015em;
+      line-height: 1.25;
+    }
+    .transformation-caption {
+      position: relative;
       display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.5rem 0.8rem;
+      margin-top: 1rem;
       font-family: var(--font-mono);
-      font-size: 0.68rem;
-      letter-spacing: 0.2em;
+      font-size: 0.52rem;
+      letter-spacing: 0.065em;
+      text-transform: uppercase;
       color: var(--text-muted);
     }
-    .noise-reduction-stat {
+    .transformation-caption .transform-word { transition: color 0.7s var(--ease-silk); }
+    .transformation-caption .transform-word.is-active { color: var(--c-gold); }
+    .transformation-caption .transform-arrow { color: var(--text-faint); }
+
+    /* 04 — SIGNAL: quiet emphasis inside a dense field */
+    .signal-frame { position: sticky; isolation: isolate; overflow: hidden; }
+    .signal-visual { position: absolute; z-index: -1; inset: 0; overflow: hidden; }
+    .signal-visual::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 37% 37% at 50% 47%, rgba(9,10,13,0.75), transparent 100%),
+        linear-gradient(180deg, var(--c-obsidian), transparent 18%, transparent 82%, var(--c-obsidian));
+      pointer-events: none;
+    }
+    .signal-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding-block: 5rem;
+      text-align: center;
+    }
+    .signal-content .chapter-label { margin-bottom: 2.8rem; }
+    .signal-title {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-style: italic;
+      font-size: clamp(4.3rem, min(9.5vw, 14vh), 9rem);
+      line-height: 0.93;
+      letter-spacing: -0.025em;
+    }
+    .signal-title > span { display: block; }
+    .signal-microcopy {
+      margin-top: 2.35rem;
+      font-family: var(--font-brand);
+      font-size: clamp(0.58rem, 0.95vw, 0.72rem);
+      font-weight: 500;
+      letter-spacing: 0.25em;
       color: var(--c-gold);
-      font-size: 0.85rem;
+    }
+    .signal-toggle { margin: 2rem auto 0; }
+    .signal-toggle svg { width: 17px; height: 17px; }
+    .signal-node {
+      position: absolute;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      transform: translate(-50%, -50%);
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.075em;
+      color: var(--c-gold);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    .signal-node .node-dot { width: 3px; height: 3px; flex-basis: 3px; }
+    .signal-node .node-dot::after { inset: -5px; opacity: 0.35; transform: none; }
+    .signal-node--momentum { left: 18%; top: 24%; }
+    .signal-node--liquidity { left: 84%; top: 32%; }
+    .signal-node--structure { left: 72%; top: 82%; }
+    .signal-footnote {
+      position: absolute;
+      z-index: 3;
+      bottom: 1.8rem;
+      left: var(--pad-x);
+      right: var(--pad-x);
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      line-height: 1.8;
+      letter-spacing: 0.03em;
+      color: var(--text-muted);
     }
 
-    /* Responsive adjustments */
+    /* Future phases remain structural. */
+    .skeleton-phase { display: none; }
+
+    .site-footer {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 2rem;
+      margin: 0 var(--pad-x);
+      padding: 2.4rem 0;
+      border-top: 1px solid var(--rule);
+    }
+    .footer-wordmark { justify-self: start; font-size: 0.68rem; }
+    .footer-position {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-style: italic;
+      text-align: center;
+      color: var(--text-muted);
+    }
+    .footer-top { justify-self: end; }
+
+    /* Responsive — native document flow on smaller screens */
+    @media (min-width: 900px) {
+      .philosophy { flex-direction: row; justify-content: center; flex-wrap: wrap; gap: 0.18em 0.55em; }
+      .ph-word { display: inline-block; }
+    }
+    @media (max-width: 900px), (max-height: 799px) {
+      .story, .story-see, .story-understand, .story-signal { min-height: auto; }
+      .scene-frame, .story-see .scene-frame {
+        position: relative;
+        top: auto;
+        min-height: auto;
+        padding-block: 6.5rem;
+      }
+      .market-visual { height: 230px; margin-block: 2rem; }
+      .observation-visual { height: 350px; margin-top: 2.2rem; }
+      .context-visual { height: 290px; }
+      .signal-frame { min-height: max(680px, var(--viewport)); }
+      .signal-content { padding-block: 4rem; }
+    }
     @media (max-width: 640px) {
-      .display-title-huge {
-        font-size: 2rem;
+      :root { --header-h: 4.5rem; }
+      .wordmark { font-size: 0.78rem; letter-spacing: 0.36em; padding-left: 0.36em; }
+      .cta { padding: 0.7rem 0.95rem; letter-spacing: 0.16em; font-size: 0.58rem; }
+      .promise { letter-spacing: 0.18em; }
+      .position { letter-spacing: 0.2em; }
+      .hero-scroll { bottom: 1rem; font-size: 0.49rem; }
+      .chapter-label { font-size: 0.53rem; margin-bottom: 2rem; }
+      .scene-title { font-size: clamp(2.5rem, 8.5vw, 3.9rem); line-height: 1.06; }
+      .scene-description { max-width: 22rem; padding-inline: 0.4rem; font-size: 0.78rem; }
+      .chapter-word { font-size: clamp(2.6rem, 11vw, 4.7rem); }
+      .story-see .chapter-word { font-size: clamp(5rem, 20vw, 7.5rem); }
+      .section-kicker { font-size: 0.57rem; letter-spacing: 0.17em; }
+      .market-visual { height: 225px; margin-top: 2.4rem; }
+      .market-signal { font-size: 0.57rem; letter-spacing: 0; }
+      .market-thesis { max-width: 18rem; margin-inline: auto; font-size: 1.55rem; }
+      .market-end-rule { margin-top: 2rem; }
+      .observation-visual { height: 365px; margin-top: 2rem; }
+      .observe-node { font-size: 0.54rem; gap: 0.45rem; letter-spacing: 0; }
+      .lens-btc { left: 21%; top: 21%; }
+      .lens-eth { left: 80%; top: 21%; }
+      .lens-cap { left: 22%; top: 38%; }
+      .lens-dominance { left: 79%; top: 38%; }
+      .lens-volatility { left: 17%; top: 77%; }
+      .lens-funding { left: 84%; top: 77%; }
+      .lens-interest { left: 50%; top: 5%; }
+      .lens-flows { left: 30%; top: 96%; }
+      .lens-macro { left: 78%; top: 96%; }
+      .observation-focus { top: 57%; width: 78%; height: 123px; }
+      .observation-name { font-size: 0.52rem; margin-bottom: 0.5rem; }
+      .observation-value { font-size: clamp(1.6rem, 7vw, 2rem); }
+      .observation-value.is-concept { font-size: 1.9rem; }
+      .observation-detail { margin-top: 0.6rem; font-size: 0.55rem; }
+      .observation-source { font-size: 0.47rem; }
+      .observation-bottom { grid-template-columns: 1fr 1fr; gap: 0.9rem; margin-top: 2.1rem; }
+      .observation-state { grid-column: 1 / -1; justify-content: center; font-size: 0.5rem; }
+      .observation-controls { justify-self: start; }
+      .source-disclosure { justify-self: end; }
+      .observation-note { max-width: 20rem; margin-inline: auto; line-height: 1.9; font-size: 0.49rem; }
+      .intelligence-path { gap: 0.3rem 0.4rem; margin-top: 2.2rem; }
+      .intelligence-path li { gap: 0.4rem; }
+      .stage-button { font-size: 0.47rem; letter-spacing: 0.055em; }
+      .path-arrow { font-size: 0.61rem; }
+      .context-visual { height: 305px; margin-top: 1.8rem; }
+      .context-equation { inset: 3% 1% auto; flex-wrap: wrap; justify-content: center; gap: 0.7rem 0.65rem; }
+      .context-token { font-size: 0.55rem; letter-spacing: 0.04em; }
+      .equation-plus { font-size: 0.6rem; }
+      .context-core { top: 54%; }
+      .context-output { top: 72%; }
+      .context-output p { font-size: 1.6rem; }
+      .transformation-caption { font-size: 0.46rem; gap: 0.45rem; letter-spacing: 0.025em; margin-top: 1.25rem; }
+      .signal-frame { min-height: max(720px, var(--viewport)); }
+      .signal-title { font-size: clamp(3.5rem, 13.5vw, 5.2rem); }
+      .signal-content .chapter-label { margin-bottom: 2.4rem; }
+      .signal-microcopy { margin-top: 1.85rem; font-size: 0.56rem; letter-spacing: 0.2em; }
+      .signal-node { gap: 0.6rem; font-size: 0.5rem; letter-spacing: 0.02em; }
+      .signal-node--momentum { left: 23%; top: 18%; }
+      .signal-node--liquidity { left: 78%; top: 23%; }
+      .signal-node--structure { left: 63%; top: 81%; }
+      .signal-footnote { font-size: 0.46rem; bottom: 1.9rem; }
+      .site-footer { grid-template-columns: 1fr auto; gap: 1.5rem; padding-block: 2rem; }
+      .footer-wordmark { font-size: 0.65rem; }
+      .footer-position { grid-column: 1 / -1; grid-row: 2; font-size: 1.1rem; }
+      .footer-top { font-size: 0.51rem; }
+    }
+    @media (max-width: 360px) {
+      .intelligence-path, .intelligence-path li { gap: 0.28rem; }
+      .stage-button { font-size: 0.43rem; }
+      .observe-node { font-size: 0.5rem; }
+      .market-signal { font-size: 0.53rem; }
+    }
+    @media (max-height: 700px) {
+      .hero-identity { padding-bottom: 1rem; }
+      .hero-promise { padding-top: 1rem; }
+      .triad { margin-top: 1.1rem; }
+      .philosophy { font-size: clamp(1.8rem, 7vh, 3.2rem); }
+    }
+    @media (min-width: 1600px) {
+      .philosophy { font-size: 7rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+      .grain { display: none; }
+      .hero-identity, .ph-word, .triad, .triad circle, .hero-promise, .brand-rule, .triad-line {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        stroke-dashoffset: 0 !important;
       }
-      .telemetry-grid {
-        grid-template-columns: 1fr;
-      }
-      .signal-stage-container {
-        height: 380px;
-      }
+      .hero-scroll { animation: none !important; opacity: 1 !important; }
+      .js .reveal { opacity: 1; transform: none; }
+      .story, .story-see, .story-understand, .story-signal { min-height: auto; }
+      .scene-frame, .story-see .scene-frame { position: relative; top: auto; min-height: auto; padding-block: 6rem; }
+      .signal-frame { min-height: 700px; }
+      .observation-autoplay { display: none; }
     }
   </style>
 </head>
-
 <body>
   <a class="skip" href="#main">Skip to content</a>
   <div class="grain" aria-hidden="true"></div>
 
-  <!-- Header -->
   <header class="site-header" id="site-header">
     <a class="wordmark" href="#hero" aria-label="VEYRA home">VEYRA</a>
     <a class="cta" href="#enter">Enter Veyra</a>
   </header>
 
-  <main id="main">
-    <!-- Hero -->
+  <main id="main" tabindex="-1">
     <section class="hero" id="hero" aria-label="VEYRA Market Intelligence">
       <canvas id="signal-field" aria-hidden="true"></canvas>
       <div class="vignette" aria-hidden="true"></div>
@@ -865,7 +1119,6 @@
           <span class="brand-rule" aria-hidden="true"></span>
           <p class="brand-category">Market Intelligence</p>
         </div>
-        
         <div class="hero-philosophy">
           <h1 class="philosophy">
             <span class="ph-word">SEE<span class="gold-dot">.</span></span>
@@ -879,589 +1132,1383 @@
             <circle cx="194" cy="6" r="2.2" />
           </svg>
         </div>
-        
         <div class="hero-promise">
           <p class="promise">Don't follow the noise.<br />Understand the signal.</p>
           <p class="position">Your second mind for the market.</p>
         </div>
       </div>
+      <a class="hero-scroll" href="#market">
+        <span>The intelligence layer</span>
+        <svg viewBox="0 0 12 18" fill="none" aria-hidden="true">
+          <path d="M6 1v14m-4-4 4 4 4-4" stroke="currentColor" stroke-width="0.8" />
+        </svg>
+      </a>
     </section>
 
-    <!-- STAGE 2 — SECTION 1: THE MARKET -->
-    <section id="the-market" class="intel-section market-section" aria-label="The Market">
-      <div class="section-num-tag reveal">01 / PERSPECTIVE</div>
-      <h2 class="display-title-huge reveal reveal-delay-1">THE MARKET NEVER STOPS MOVING.</h2>
-      
-      <div class="market-grid">
-        <div class="reveal reveal-delay-2">
-          <p class="market-intro">
-            Markets generate enormous amounts of information every second. Continuous streams of prices, sentiment, structural shifts, and macroeconomic shifts flow endlessly through global networks.
+    <!-- 01 / THE MARKET -->
+    <section class="story story-market" id="market" data-phase="2" aria-labelledby="market-title">
+      <div class="entry-anchor" id="enter" aria-hidden="true"></div>
+      <div class="scene-frame">
+        <div class="scene-head scene-width reveal">
+          <p class="chapter-label">
+            <span class="chapter-index">01</span>
+            <span class="chapter-rule" aria-hidden="true"></span>
+            <span>The market</span>
           </p>
-          <p class="market-key-statement">
-            "But information alone is not intelligence."
+          <h2 class="scene-title" id="market-title">
+            <span>THE MARKET</span>
+            <span>NEVER STOPS MOVING.</span>
+          </h2>
+          <p class="scene-description">Markets generate enormous amounts of information every second.</p>
+        </div>
+
+        <figure class="market-visual scene-width" aria-describedby="market-visual-description">
+          <canvas class="visual-canvas" id="market-field" aria-hidden="true"></canvas>
+          <ul class="market-signals" aria-label="Market information">
+            <li class="market-signal">Price</li>
+            <li class="market-signal">Momentum</li>
+            <li class="market-signal">Liquidity</li>
+            <li class="market-signal">Macro</li>
+            <li class="market-signal">Volatility</li>
+            <li class="market-signal">Sentiment</li>
+            <li class="market-signal">Correlation</li>
+            <li class="market-signal">Structure</li>
+          </ul>
+          <figcaption class="sr-only" id="market-visual-description">Fragmented market inputs gradually settle into an organized field as you scroll. Organization alone is not intelligence.</figcaption>
+        </figure>
+
+        <div class="reveal">
+          <p class="market-thesis">But information alone is not <em>intelligence.</em></p>
+          <div class="market-end-rule" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 / SEE -->
+    <section class="story story-see" id="see" data-phase="2" aria-labelledby="see-title">
+      <div class="scene-frame">
+        <div class="scene-head reveal">
+          <p class="chapter-label">
+            <span class="chapter-index">02</span>
+            <span class="chapter-rule" aria-hidden="true"></span>
+            <span>Observation</span>
           </p>
+          <h2 class="chapter-word" id="see-title">SEE</h2>
+          <h3 class="section-kicker">FIRST, SEE WHAT IS HAPPENING.</h3>
         </div>
 
-        <div class="signal-fragments reveal reveal-delay-3" id="fragment-container">
-          <div class="fragment-card active">
-            <div class="frag-title">PRICE</div>
-            <div class="frag-status"><span>Real-time Velocity</span> <span class="frag-dot"></span></div>
+        <figure class="observation-visual" aria-describedby="observation-description">
+          <canvas class="visual-canvas" id="observation-field" aria-hidden="true"></canvas>
+
+          <button class="observe-node lens-btc is-active" type="button" data-feed="0" aria-pressed="true">
+            <span class="node-dot" aria-hidden="true"></span><span>BTC</span>
+          </button>
+          <button class="observe-node lens-eth" type="button" data-feed="1" aria-pressed="false">
+            <span class="node-dot" aria-hidden="true"></span><span>ETH</span>
+          </button>
+          <button class="observe-node lens-cap" type="button" data-feed="2" aria-pressed="false">
+            <span class="node-dot" aria-hidden="true"></span><span>Total Market Cap</span>
+          </button>
+          <button class="observe-node lens-dominance" type="button" data-feed="3" aria-pressed="false">
+            <span class="node-dot" aria-hidden="true"></span><span>BTC Dominance</span>
+          </button>
+          <button class="observe-node lens-volatility" type="button" data-feed="4" aria-pressed="false">
+            <span class="node-dot" aria-hidden="true"></span><span>Volatility</span>
+          </button>
+          <button class="observe-node lens-funding" type="button" data-feed="5" aria-pressed="false">
+            <span class="node-dot" aria-hidden="true"></span><span>Funding</span>
+          </button>
+          <button class="observe-node lens-interest" type="button" data-feed="6" aria-pressed="false">
+            <span class="node-dot" aria-hidden="true"></span><span>Open Interest</span>
+          </button>
+          <button class="observe-node lens-flows" type="button" data-feed="7" aria-pressed="false">
+            <span class="node-dot" aria-hidden="true"></span><span>Stablecoin Flows</span>
+          </button>
+          <button class="observe-node lens-macro" type="button" data-feed="8" aria-pressed="false">
+            <span class="node-dot" aria-hidden="true"></span><span>Macro</span>
+          </button>
+
+          <div class="observation-focus" aria-live="off">
+            <div class="focus-content" id="focus-content">
+              <p class="observation-name" id="observation-name">BTC</p>
+              <p class="observation-value is-concept" id="observation-value">Price discovery</p>
+              <p class="observation-detail" id="observation-detail">Spot price · USD</p>
+              <p class="observation-source" id="observation-source">Public snapshots load on demand.</p>
+            </div>
           </div>
-          <div class="fragment-card active">
-            <div class="frag-title">MOMENTUM</div>
-            <div class="frag-status"><span>Cross-Timeframe</span> <span class="frag-dot"></span></div>
+          <figcaption class="sr-only" id="observation-description">A cinematic observation field. One market lens is revealed at a time. Scroll or select a label to explore it. Available numbers are fetched from public sources; missing sources are explicitly labeled. The orbital motion is illustrative, not a price chart.</figcaption>
+        </figure>
+
+        <div class="observation-bottom">
+          <p class="observation-state" id="observation-state">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span id="observation-state-text">Observation layer</span>
+          </p>
+          <div class="observation-controls interactive-only" aria-label="Observation controls">
+            <button class="round-control" id="previous-observation" type="button" aria-label="Previous market lens" title="Previous market lens">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m10 4-4 4 4 4" stroke="currentColor" stroke-width="1" /></svg>
+            </button>
+            <button class="round-control observation-autoplay" id="toggle-observation" type="button" aria-label="Pause automatic observation" title="Pause automatic observation">
+              <svg class="pause-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4v8m4-8v8" stroke="currentColor" stroke-width="1.2" /></svg>
+              <svg class="play-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m6 4 6 4-6 4V4Z" stroke="currentColor" stroke-width="1" /></svg>
+            </button>
+            <button class="round-control" id="next-observation" type="button" aria-label="Next market lens" title="Next market lens">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m6 4 4 4-4 4" stroke="currentColor" stroke-width="1" /></svg>
+            </button>
           </div>
-          <div class="fragment-card">
-            <div class="frag-title">LIQUIDITY</div>
-            <div class="frag-status"><span>Depth & Slippage</span> <span class="frag-dot"></span></div>
-          </div>
-          <div class="fragment-card">
-            <div class="frag-title">MACRO</div>
-            <div class="frag-status"><span>Rates & Yields</span> <span class="frag-dot"></span></div>
-          </div>
-          <div class="fragment-card active">
-            <div class="frag-title">VOLATILITY</div>
-            <div class="frag-status"><span>Implied vs Realized</span> <span class="frag-dot"></span></div>
-          </div>
-          <div class="fragment-card">
-            <div class="frag-title">SENTIMENT</div>
-            <div class="frag-status"><span>Positional Bias</span> <span class="frag-dot"></span></div>
-          </div>
-          <div class="fragment-card">
-            <div class="frag-title">CORRELATION</div>
-            <div class="frag-status"><span>Cross-Asset Shift</span> <span class="frag-dot"></span></div>
-          </div>
-          <div class="fragment-card active">
-            <div class="frag-title">STRUCTURE</div>
-            <div class="frag-status"><span>Order Book Imbalance</span> <span class="frag-dot"></span></div>
-          </div>
+          <details class="source-disclosure">
+            <summary>
+              Data &amp; sources
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="0.8" /><path d="M8 7v4M8 4.5v1" stroke="currentColor" stroke-width="0.9" /></svg>
+            </summary>
+            <div class="source-panel">
+              <h3>Observation, with provenance.</h3>
+              <p>BTC, ETH, market capitalization, and dominance use public CoinGecko snapshots. Funding and open interest use Binance BTCUSDT perpetual endpoints.</p>
+              <p>Volatility, when available, is calculated from daily BTC log returns over the last 30 days and annualized using √365.</p>
+              <p>Public endpoints can be delayed, rate-limited, or unavailable. Stablecoin flows and macro are conceptual lenses without a connected live source. No substitute numbers are generated.</p>
+              <p>Paths, relationships, and highlights are illustrative. They are not market predictions or trading recommendations.</p>
+              <button class="text-control interactive-only" type="button" id="refresh-data">
+                <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M12.7 6A5 5 0 1 0 13 9m0-7v4H9" stroke="currentColor" stroke-width="0.9" /></svg>
+                Refresh public snapshots
+              </button>
+              <p class="source-status" id="refresh-status" role="status">Read-only public data. No account required.</p>
+            </div>
+          </details>
         </div>
+        <p class="observation-note">Select a lens. Observe one layer at a time.</p>
+        <noscript><p class="observation-note">Enable JavaScript to explore the field and load public market snapshots.</p></noscript>
       </div>
     </section>
 
-    <!-- STAGE 2 — SECTION 2: SEE -->
-    <section id="see" class="intel-section see-section" aria-label="See">
-      <div class="see-header reveal">
-        <div class="section-num-tag">02 / TELEMETRY</div>
-        <div class="see-subtitle">FIRST, SEE WHAT IS HAPPENING.</div>
-        <h2 class="display-title-huge">SEE</h2>
-      </div>
-
-      <div class="telemetry-container reveal reveal-delay-1">
-        <div class="telemetry-topbar">
-          <div class="live-pulse-badge">
-            <span class="pulse-dot"></span>
-            <span>VEYRA LIVE OBSERVATION FEED</span>
-          </div>
-          <div class="num">LATENCY: 12ms // FREQ: HIGH</div>
+    <!-- 03 / UNDERSTAND -->
+    <section class="story story-understand" id="understand" data-phase="2" aria-labelledby="understand-title">
+      <div class="scene-frame">
+        <div class="scene-head reveal">
+          <p class="chapter-label">
+            <span class="chapter-index">03</span>
+            <span class="chapter-rule" aria-hidden="true"></span>
+            <span>Connected intelligence</span>
+          </p>
+          <h2 class="chapter-word" id="understand-title">UNDERSTAND</h2>
+          <h3 class="section-kicker">DATA IS NOT UNDERSTANDING.</h3>
         </div>
 
-        <div class="telemetry-grid">
-          <div class="telemetry-node">
-            <div class="telemetry-label">BTC / USD <span class="num">01</span></div>
-            <div class="telemetry-value num">$96,420.50 <span class="telemetry-change pos">+2.4%</span></div>
-          </div>
+        <ol class="intelligence-path" aria-label="Explore the intelligence process" aria-describedby="intelligence-help">
+          <li><button class="stage-button is-active" type="button" data-stage="0" aria-pressed="true" aria-controls="context-visual">DATA</button><span class="path-arrow" aria-hidden="true">→</span></li>
+          <li><button class="stage-button" type="button" data-stage="1" aria-pressed="false" aria-controls="context-visual">ANALYSIS</button><span class="path-arrow" aria-hidden="true">→</span></li>
+          <li><button class="stage-button" type="button" data-stage="2" aria-pressed="false" aria-controls="context-visual">CONTEXT</button><span class="path-arrow" aria-hidden="true">→</span></li>
+          <li><button class="stage-button" type="button" data-stage="3" aria-pressed="false" aria-controls="context-visual">RELATIONSHIPS</button><span class="path-arrow" aria-hidden="true">→</span></li>
+          <li><button class="stage-button" type="button" data-stage="4" aria-pressed="false" aria-controls="context-visual">SIGNAL</button></li>
+        </ol>
+        <p class="sr-only" id="intelligence-help">Scroll to transform raw inputs into context, or select a stage. Arrow keys move between stages. Scrolling again resumes the narrative.</p>
 
-          <div class="telemetry-node">
-            <div class="telemetry-label">ETH / USD <span class="num">02</span></div>
-            <div class="telemetry-value num">$3,410.80 <span class="telemetry-change pos">+1.8%</span></div>
+        <figure class="context-visual" id="context-visual" aria-describedby="context-description">
+          <canvas class="visual-canvas" id="context-field" aria-hidden="true"></canvas>
+          <div class="context-equation">
+            <span class="context-token">PRICE</span>
+            <span class="equation-plus">+</span>
+            <span class="context-token">MOMENTUM</span>
+            <span class="equation-plus">+</span>
+            <span class="context-token">LIQUIDITY</span>
+            <span class="equation-plus">+</span>
+            <span class="context-token">MACRO</span>
+            <span class="equation-plus">+</span>
+            <span class="context-token">MARKET STRUCTURE</span>
           </div>
-
-          <div class="telemetry-node">
-            <div class="telemetry-label">TOTAL MARKET CAP <span class="num">03</span></div>
-            <div class="telemetry-value num">$3.42T <span class="telemetry-change pos">+2.1%</span></div>
+          <div class="context-core" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-opacity="0.22" stroke-width="0.6" />
+              <path d="M14 30 24 13l10 17H14Zm0 0 10-6 10 6M24 13v11" stroke="currentColor" stroke-width="0.7" stroke-opacity="0.7" />
+              <circle cx="24" cy="13" r="1.6" fill="currentColor" />
+              <circle cx="14" cy="30" r="1.6" fill="currentColor" />
+              <circle cx="34" cy="30" r="1.6" fill="currentColor" />
+              <circle cx="24" cy="24" r="1.2" fill="currentColor" />
+            </svg>
           </div>
-
-          <div class="telemetry-node">
-            <div class="telemetry-label">BTC DOMINANCE <span class="num">04</span></div>
-            <div class="telemetry-value num">58.4% <span class="telemetry-change neg">-0.3%</span></div>
+          <div class="context-output">
+            <span class="context-down" aria-hidden="true">↓</span>
+            <p>A MARKET CONTEXT</p>
           </div>
+          <figcaption class="sr-only" id="context-description">Raw data becomes relationships, context, and interpretation. Price, momentum, liquidity, macro, and market structure converge into a connected market context. These connections illustrate the intelligence process, not measured correlations.</figcaption>
+        </figure>
 
-          <div class="telemetry-node">
-            <div class="telemetry-label">VOLATILITY INDEX <span class="num">05</span></div>
-            <div class="telemetry-value num">14.2 <span class="telemetry-change neu">SUPPRESSED</span></div>
-          </div>
-
-          <div class="telemetry-node">
-            <div class="telemetry-label">AGGREGATE FUNDING <span class="num">06</span></div>
-            <div class="telemetry-value num">+0.0082% <span class="telemetry-change pos">BALANCED</span></div>
-          </div>
-
-          <div class="telemetry-node">
-            <div class="telemetry-label">OPEN INTEREST <span class="num">07</span></div>
-            <div class="telemetry-value num">$58.4B <span class="telemetry-change pos">EXPANDING</span></div>
-          </div>
-
-          <div class="telemetry-node">
-            <div class="telemetry-label">STABLECOIN INFLOWS <span class="num">08</span></div>
-            <div class="telemetry-value num">+$420M <span class="telemetry-change pos">24H HIGH</span></div>
-          </div>
-
-          <div class="telemetry-node">
-            <div class="telemetry-label">MACRO REGIME <span class="num">09</span></div>
-            <div class="telemetry-value" style="font-size: 1.1rem; color: var(--c-gold);">RISK-EXPANSION</div>
-          </div>
-        </div>
-
-        <div class="telemetry-graph-wrap">
-          <canvas id="see-graph-canvas"></canvas>
-        </div>
+        <p class="transformation-caption" aria-label="Raw data to relationships to context to interpretation">
+          <span class="transform-word is-active">Raw data</span>
+          <span class="transform-arrow" aria-hidden="true">→</span>
+          <span class="transform-word">Relationships</span>
+          <span class="transform-arrow" aria-hidden="true">→</span>
+          <span class="transform-word">Context</span>
+          <span class="transform-arrow" aria-hidden="true">→</span>
+          <span class="transform-word">Interpretation</span>
+        </p>
       </div>
     </section>
 
-    <!-- STAGE 2 — SECTION 3: UNDERSTAND -->
-    <section id="understand" class="intel-section understand-section" aria-label="Understand">
-      <div class="understand-header reveal">
-        <div class="section-num-tag">03 / SYNTHESIS</div>
-        <h2 class="display-title-huge">UNDERSTAND</h2>
-        <p class="promise" style="font-size: 1.1rem; color: var(--c-gold);">DATA IS NOT UNDERSTANDING.</p>
-      </div>
+    <!-- 04 / SIGNAL -->
+    <section class="story story-signal" id="signal" data-phase="2" aria-labelledby="signal-title">
+      <div class="scene-frame signal-frame">
+        <figure class="signal-visual" id="signal-visual" aria-describedby="signal-description">
+          <canvas class="visual-canvas" id="filtered-field" aria-hidden="true"></canvas>
+          <figcaption class="sr-only" id="signal-description">Hundreds of abstract data fragments recede while a few contextual elements remain in focus. The visualization is illustrative and does not identify actual trading signals.</figcaption>
+        </figure>
 
-      <!-- Progression flow -->
-      <div class="progression-flow reveal reveal-delay-1">
-        <div class="flow-step">
-          <div class="flow-step-num">STAGE 01</div>
-          <div class="flow-step-title">DATA</div>
+        <div class="signal-node signal-node--momentum" aria-hidden="true">
+          <span class="node-dot"></span><span>Momentum</span>
         </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-step">
-          <div class="flow-step-num">STAGE 02</div>
-          <div class="flow-step-title">ANALYSIS</div>
+        <div class="signal-node signal-node--liquidity" aria-hidden="true">
+          <span class="node-dot"></span><span>Liquidity</span>
         </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-step">
-          <div class="flow-step-num">STAGE 03</div>
-          <div class="flow-step-title">CONTEXT</div>
+        <div class="signal-node signal-node--structure" aria-hidden="true">
+          <span class="node-dot"></span><span>Market structure</span>
         </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-step">
-          <div class="flow-step-num">STAGE 04</div>
-          <div class="flow-step-title">RELATIONSHIPS</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-step active-step">
-          <div class="flow-step-num">STAGE 05</div>
-          <div class="flow-step-title">SIGNAL</div>
-        </div>
-      </div>
 
-      <!-- Variable Fusion matrix visual -->
-      <div class="convergence-matrix reveal reveal-delay-2">
-        <div class="matrix-title">MULTI-VARIABLE SYNTHESIS ARCHITECTURE</div>
-        
-        <div class="fusion-wrapper">
-          <div class="inputs-row">
-            <div class="input-chip">PRICE</div>
-            <div class="input-chip">+ MOMENTUM</div>
-            <div class="input-chip">+ LIQUIDITY</div>
-            <div class="input-chip">+ MACRO</div>
-            <div class="input-chip">+ MARKET STRUCTURE</div>
+        <div class="signal-content">
+          <div class="reveal">
+            <p class="chapter-label">
+              <span class="chapter-index">04</span>
+              <span class="chapter-rule" aria-hidden="true"></span>
+              <span>Signal</span>
+            </p>
+            <h2 class="signal-title" id="signal-title">
+              <span>FIND WHAT</span>
+              <span>MATTERS<span class="gold-dot">.</span></span>
+            </h2>
+            <p class="signal-microcopy">LESS NOISE. MORE SIGNAL.</p>
           </div>
-
-          <div class="fusion-funnel"></div>
-
-          <div class="fusion-output">
-            A MARKET CONTEXT
-          </div>
+          <button class="text-control signal-toggle interactive-only" id="signal-toggle" type="button" aria-label="Reveal background noise" aria-pressed="false" aria-controls="signal-visual">
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M7 3H3v4m10-4h4v4M3 13v4h4m10-4v4h-4" stroke="currentColor" stroke-width="0.9" />
+              <circle cx="10" cy="10" r="2" stroke="currentColor" stroke-width="0.8" />
+            </svg>
+            <span id="signal-toggle-label">Reveal the noise</span>
+          </button>
         </div>
+        <p class="signal-footnote">Illustrative signal field. Not a trading recommendation.</p>
       </div>
     </section>
 
-    <!-- STAGE 2 — SECTION 4: SIGNAL -->
-    <section id="signal" class="intel-section signal-section" aria-label="Signal">
-      <div class="reveal">
-        <div class="section-num-tag">04 / EXTRACTION</div>
-        <h2 class="display-title-huge">FIND WHAT MATTERS.</h2>
-      </div>
-
-      <div class="signal-stage-container reveal reveal-delay-1">
-        <canvas id="signal-extraction-canvas"></canvas>
-        <div class="signal-overlay-content">
-          <div class="signal-microcopy">
-            LESS NOISE.
-            <span>MORE SIGNAL.</span>
-          </div>
-
-          <div class="signal-metrics-bar">
-            <div>RAW DATA: <span class="num" style="color:var(--c-ivory);">10,000+ POINTS/SEC</span></div>
-            <div class="noise-reduction-stat num">INTELLIGENCE FILTER: ACTIVE (99.4% NOISE ISOLATED)</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Stage 3 & 4 Skeletons -->
+    <!-- Future stages -->
     <section id="decide" class="skeleton-phase" data-phase="3" aria-hidden="true"></section>
     <section id="environment" class="skeleton-phase" data-phase="4" aria-hidden="true"></section>
-    <section id="enter" class="skeleton-phase" data-phase="gateway" aria-hidden="true"></section>
+
+    <p class="sr-only" id="scene-announcement" role="status" aria-live="polite" aria-atomic="true"></p>
   </main>
 
-  <!-- Script for visuals & interaction -->
+  <footer class="site-footer">
+    <a class="wordmark footer-wordmark" href="#hero" aria-label="VEYRA home">VEYRA</a>
+    <p class="footer-position">Your second mind for the market.</p>
+    <a class="text-control footer-top" href="#hero">
+      Back to the beginning
+      <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 13V3m-4 4 4-4 4 4" stroke="currentColor" stroke-width="0.8" /></svg>
+    </a>
+  </footer>
+
   <script>
+    /* ============================================================
+       FOUNDATION — entrance, header, and the original signal field
+       ============================================================ */
     (function () {
       "use strict";
 
-      /* Hero & App ready init */
-      var ready = function () {
-        document.body.classList.add("is-ready");
-      };
-      if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(ready);
-      }
+      var ready = function () { document.body.classList.add("is-ready"); };
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(ready);
       setTimeout(ready, 900);
 
-      /* Header scrolled background toggle */
       var header = document.getElementById("site-header");
       var onScroll = function () {
-        if (!header) return;
         header.classList.toggle("is-scrolled", window.scrollY > 12);
       };
       window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
 
-      /* Intersection Observer for reveal elements */
-      var observerOptions = {
-        root: null,
-        rootMargin: "0px 0px -8% 0px",
-        threshold: 0.1
-      };
-
-      var revealObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-          }
-        });
-      }, observerOptions);
-
-      document.querySelectorAll(".reveal").forEach(function (el) {
-        revealObserver.observe(el);
-      });
-
-      /* ============================================================
-         Hero Signal Field Canvas (Stage 1 Core)
-         ============================================================ */
       var canvas = document.getElementById("signal-field");
-      if (canvas) {
-        var ctx = canvas.getContext("2d", { alpha: false });
-        var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        var running = !document.hidden && !reduce;
-        var dpr = 1, w = 0, h = 0;
-        var particles = [];
-        var t0 = performance.now();
-        var time = 0;
-        var mouse = { x: 0.5, y: 0.5, active: false };
-        var raf = 0, resizeTimer = 0;
+      var ctx = canvas && canvas.getContext("2d", { alpha: false });
+      if (!ctx) return;
 
-        function hash(ix, iy) {
-          var n = (ix * 374761393 + iy * 668265263) | 0;
-          n = (n ^ (n >> 13)) * 1274126177;
-          return ((n ^ (n >> 16)) >>> 0) / 4294967295;
+      var motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      var reduce = motionQuery.matches;
+      var running = false;
+      var inView = true;
+      var dpr = 1, w = 0, h = 0;
+      var particles = [];
+      var t0 = performance.now(), time = 0, lastNow = 0;
+      var mouse = { x: 0.5, y: 0.5, active: false };
+      var raf = 0, resizeTimer = 0;
+
+      function hash(ix, iy) {
+        var n = (ix * 374761393 + iy * 668265263) | 0;
+        n = (n ^ (n >>> 13)) * 1274126177;
+        return ((n ^ (n >>> 16)) >>> 0) / 4294967295;
+      }
+      function fade(t) { return t * t * (3 - 2 * t); }
+      function vnoise(x, y) {
+        var x0 = Math.floor(x), y0 = Math.floor(y);
+        var fx = fade(x - x0), fy = fade(y - y0);
+        var a = hash(x0, y0), b = hash(x0 + 1, y0);
+        var c = hash(x0, y0 + 1), d = hash(x0 + 1, y0 + 1);
+        return a + (b - a) * fx + (c - a) * fy + (a - b - c + d) * fx * fy;
+      }
+      function clamp01(v) { return Math.max(0, Math.min(1, v)); }
+      function orderAt(seconds) {
+        var emerge = 1 / (1 + Math.exp(-0.42 * (seconds - 7.5)));
+        var breath = 0.5 + 0.5 * Math.sin(seconds * 0.11);
+        return clamp01(emerge * (0.78 + 0.22 * breath));
+      }
+      function countForSize() {
+        if (w < 700) return 90;
+        if (w * h > 1800000) return 280;
+        if (w * h > 900000) return 200;
+        return 140;
+      }
+      function initParticles() {
+        particles = [];
+        for (var i = 0; i < countForSize(); i++) {
+          particles.push({
+            x: Math.random() * w, y: Math.random() * h,
+            vx: (Math.random() - 0.5) * 0.8, vy: (Math.random() - 0.5) * 0.8,
+            r: 0.6 + Math.random() * 1.5, seed: Math.random(), affinity: Math.random()
+          });
         }
-        function fade(t) { return t * t * (3 - 2 * t); }
-        function vnoise(x, y) {
-          var x0 = Math.floor(x), y0 = Math.floor(y);
-          var fx = fade(x - x0), fy = fade(y - y0);
-          var a = hash(x0, y0), b = hash(x0 + 1, y0);
-          var c = hash(x0, y0 + 1), d = hash(x0 + 1, y0 + 1);
-          return a + (b - a) * fx + (c - a) * fy + (a - b - c + d) * fx * fy;
+      }
+      function sizeCanvas() {
+        var rect = canvas.getBoundingClientRect();
+        w = Math.max(1, Math.floor(rect.width));
+        h = Math.max(1, Math.floor(rect.height));
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.floor(w * dpr);
+        canvas.height = Math.floor(h * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      function signalY(x, seconds, order) {
+        var nx = (x / Math.max(w, 1)) * Math.PI * 2;
+        var s1 = Math.sin(nx * 2 + seconds * 0.28) * 32;
+        var s2 = Math.sin(nx * 5.5 - seconds * 0.17) * 12;
+        var s3 = Math.sin(nx * 12 + seconds * 0.55) * 4;
+        var n = (vnoise(x * 0.008, seconds * 0.08) - 0.5) * 62 * (1 - order);
+        return h * 0.52 + (s1 + s2 + s3) * (0.18 + order * 0.82) + n;
+      }
+      function drawWave(seconds, order) {
+        if (order < 0.08) return;
+        var grad = ctx.createLinearGradient(0, 0, w, 0);
+        grad.addColorStop(0, "rgba(214,181,106,0)");
+        grad.addColorStop(0.5, "rgba(214,181,106," + (0.08 + order * 0.28) + ")");
+        grad.addColorStop(1, "rgba(214,181,106,0)");
+        var steps = Math.max(40, Math.floor(w / 8));
+        ctx.beginPath();
+        for (var i = 0; i <= steps; i++) {
+          var x = (i / steps) * w, y = signalY(x, seconds, order);
+          if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
         }
-        function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
-        function orderAt(seconds) {
-          var emerge = 1 / (1 + Math.exp(-0.42 * (seconds - 7.5)));
-          var breath = 0.5 + 0.5 * Math.sin(seconds * 0.11);
-          return clamp01(emerge * (0.78 + 0.22 * breath));
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 1.15;
+        ctx.stroke();
+        ctx.beginPath();
+        for (var j = 0; j <= steps; j++) {
+          var x2 = (j / steps) * w, y2 = signalY(x2, seconds + 1.7, order) + 10 * order;
+          if (j === 0) ctx.moveTo(x2, y2); else ctx.lineTo(x2, y2);
         }
-        function countForSize() {
-          var area = w * h;
-          if (w < 700) return 90;
-          if (area > 1800000) return 280;
-          if (area > 900000) return 200;
-          return 140;
-        }
-        function makeParticle() {
-          return {
-            x: Math.random() * w,
-            y: Math.random() * h,
-            vx: (Math.random() - 0.5) * 0.8,
-            vy: (Math.random() - 0.5) * 0.8,
-            r: 0.6 + Math.random() * 1.5,
-            seed: Math.random(),
-            affinity: Math.random()
-          };
-        }
-        function initParticles() {
-          var n = countForSize();
-          particles = [];
-          for (var i = 0; i < n; i++) particles.push(makeParticle());
-        }
-        function sizeCanvas() {
-          var rect = canvas.getBoundingClientRect();
-          w = Math.max(1, Math.floor(rect.width));
-          h = Math.max(1, Math.floor(rect.height));
-          dpr = Math.min(window.devicePixelRatio || 1, 2);
-          canvas.width = Math.floor(w * dpr);
-          canvas.height = Math.floor(h * dpr);
-          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        }
-        function signalY(x, seconds, order) {
-          var nx = (x / Math.max(w, 1)) * Math.PI * 2;
-          var s1 = Math.sin(nx * 2.0 + seconds * 0.28) * 32;
-          var s2 = Math.sin(nx * 5.5 - seconds * 0.17) * 12;
-          var s3 = Math.sin(nx * 12.0 + seconds * 0.55) * 4;
-          var nAmp = 62 * (1 - order);
-          var n = (vnoise(x * 0.008, seconds * 0.08) - 0.5) * nAmp;
-          return h * 0.52 + (s1 + s2 + s3) * (0.18 + order * 0.82) + n;
-        }
-        function drawWave(seconds, order) {
-          if (order < 0.08) return;
-          var alpha = 0.08 + order * 0.28;
-          var grad = ctx.createLinearGradient(0, 0, w, 0);
-          grad.addColorStop(0, "rgba(214,181,106,0)");
-          grad.addColorStop(0.5, "rgba(214,181,106," + alpha + ")");
-          grad.addColorStop(1, "rgba(214,181,106,0)");
-          ctx.beginPath();
-          var steps = Math.max(40, Math.floor(w / 8));
-          for (var i = 0; i <= steps; i++) {
-            var x = (i / steps) * w;
-            var y = signalY(x, seconds, order);
-            if (i === 0) ctx.moveTo(x, y);
-            else ctx.lineTo(x, y);
+        ctx.strokeStyle = "rgba(242,240,233," + (0.035 + order * 0.06) + ")";
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      }
+      function drawConnections(order) {
+        if (order < 0.22) return;
+        var maxD = 42 + order * 56, maxD2 = maxD * maxD;
+        ctx.lineWidth = 0.6;
+        for (var i = 0; i < particles.length; i++) {
+          var a = particles[i];
+          for (var k = i + 1; k < Math.min(particles.length, i + 7); k++) {
+            var b = particles[k], dx = a.x - b.x, dy = a.y - b.y;
+            var d2 = dx * dx + dy * dy;
+            if (d2 > maxD2) continue;
+            var goldish = (a.affinity + b.affinity) * 0.5 * order > 0.42;
+            var al = (1 - Math.sqrt(d2) / maxD) * (0.04 + order * 0.12);
+            ctx.strokeStyle = goldish ? "rgba(214,181,106," + al + ")" : "rgba(242,240,233," + al * 0.55 + ")";
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
           }
-          ctx.strokeStyle = grad;
-          ctx.lineWidth = 1.15;
-          ctx.stroke();
         }
-        function drawConnections(order) {
-          if (order < 0.22) return;
-          var maxD = 42 + order * 56;
-          var maxD2 = maxD * maxD;
-          var n = particles.length;
-          ctx.lineWidth = 0.6;
-          for (var i = 0; i < n; i++) {
-            var a = particles[i];
-            var lim = Math.min(n, i + 7);
-            for (var k = i + 1; k < lim; k++) {
-              var b = particles[k];
-              var dx = a.x - b.x, dy = a.y - b.y;
-              var d2 = dx * dx + dy * dy;
-              if (d2 > maxD2) continue;
-              var goldish = (a.affinity + b.affinity) * 0.5 * order > 0.42;
-              var p = 1 - Math.sqrt(d2) / maxD;
-              var al = p * (0.04 + order * 0.12);
-              ctx.strokeStyle = goldish ? "rgba(214,181,106," + al + ")" : "rgba(242,240,233," + al * 0.55 + ")";
-              ctx.beginPath();
-              ctx.moveTo(a.x, a.y);
-              ctx.lineTo(b.x, b.y);
-              ctx.stroke();
+      }
+      function step(seconds, order, delta) {
+        var mx = mouse.x * w, my = mouse.y * h;
+        for (var i = 0; i < particles.length; i++) {
+          var p = particles[i];
+          var angleNoise = vnoise(p.x * 0.0032, p.y * 0.0032 + seconds * 0.045) * Math.PI * 2;
+          var angleSignal = Math.atan2(signalY(p.x, seconds, order) - p.y, 14);
+          var angle = angleNoise * (1 - order) + angleSignal * order;
+          var spd = 0.28 + order * 0.42 + p.seed * 0.2;
+          p.vx += Math.cos(angle) * spd * 0.045 * delta;
+          p.vy += Math.sin(angle) * spd * 0.045 * delta;
+          if (mouse.active) {
+            var mdx = mx - p.x, mdy = my - p.y, md2 = mdx * mdx + mdy * mdy;
+            if (md2 < 16000) {
+              var f = 0.012 * (1 - md2 / 16000);
+              p.vx += mdx * f * 0.01 * delta;
+              p.vy += mdy * f * 0.01 * delta;
             }
           }
+          p.vx *= Math.pow(0.955, delta);
+          p.vy *= Math.pow(0.955, delta);
+          p.x += p.vx * delta;
+          p.y += p.vy * delta;
+          if (p.x < -12) p.x = w + 12; else if (p.x > w + 12) p.x = -12;
+          if (p.y < -12) p.y = h + 12; else if (p.y > h + 12) p.y = -12;
         }
-        function step(seconds, order) {
-          var n = particles.length;
-          for (var i = 0; i < n; i++) {
-            var p = particles[i];
-            var nv = vnoise(p.x * 0.0032, p.y * 0.0032 + seconds * 0.045);
-            var angleNoise = nv * Math.PI * 2;
-            var sy = signalY(p.x, seconds, order);
-            var angleSignal = Math.atan2(sy - p.y, 14);
-            var angle = angleNoise * (1 - order) + angleSignal * order;
-            var spd = 0.28 + order * 0.42 + p.seed * 0.2;
-            p.vx += Math.cos(angle) * spd * 0.045;
-            p.vy += Math.sin(angle) * spd * 0.045;
-            p.vx *= 0.955;
-            p.vy *= 0.955;
-            p.x += p.vx;
-            p.y += p.vy;
-            if (p.x < -12) p.x = w + 12;
-            else if (p.x > w + 12) p.x = -12;
-            if (p.y < -12) p.y = h + 12;
-            else if (p.y > h + 12) p.y = -12;
-          }
+      }
+      function drawParticles(order) {
+        for (var i = 0; i < particles.length; i++) {
+          var p = particles[i];
+          var isSignal = p.affinity * (0.35 + order) > 0.48;
+          var a = isSignal ? 0.22 + order * 0.55 : 0.1 + (1 - order) * 0.22;
+          ctx.fillStyle = isSignal ? "rgba(214,181,106," + a + ")" : "rgba(242,240,233," + a + ")";
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r * (isSignal ? 1.15 : 0.9), 0, Math.PI * 2);
+          ctx.fill();
         }
-        function drawParticles(order) {
-          var n = particles.length;
-          for (var i = 0; i < n; i++) {
-            var p = particles[i];
-            var isSignal = p.affinity * (0.35 + order) > 0.48;
-            var r = p.r * (isSignal ? 1.15 : 0.9);
-            var a = isSignal ? 0.22 + order * 0.55 : 0.1 + (1 - order) * 0.22;
-            ctx.fillStyle = isSignal ? "rgba(214,181,106," + a + ")" : "rgba(242,240,233," + a + ")";
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
-            ctx.fill();
-          }
-        }
-        function frame(now) {
-          if (!running) return;
-          time = (now - t0) / 1000;
-          var order = orderAt(time);
-          ctx.fillStyle = "rgba(9, 10, 13, 0.16)";
-          ctx.fillRect(0, 0, w, h);
-          step(time, order);
-          drawWave(time, order);
-          drawConnections(order);
-          drawParticles(order);
-          raf = requestAnimationFrame(frame);
-        }
-        function start() {
+      }
+      function frame(now) {
+        if (!running) return;
+        var delta = Math.min(2, Math.max(0.25, (now - lastNow) / 16.667));
+        lastNow = now;
+        time = (now - t0) / 1000;
+        var order = orderAt(time);
+        ctx.fillStyle = "rgba(9,10,13,0.16)";
+        ctx.fillRect(0, 0, w, h);
+        step(time, order, delta);
+        drawWave(time, order);
+        drawConnections(order);
+        drawParticles(order);
+        raf = requestAnimationFrame(frame);
+      }
+      function drawStatic() {
+        ctx.fillStyle = "#090A0D";
+        ctx.fillRect(0, 0, w, h);
+        for (var k = 0; k < 40; k++) step(18, 0.92, 1);
+        drawWave(18, 0.92);
+        drawConnections(0.92);
+        drawParticles(0.92);
+      }
+      function pause() {
+        running = false;
+        if (raf) cancelAnimationFrame(raf);
+        raf = 0;
+      }
+      function resume() {
+        if (running || reduce || document.hidden || !inView) return;
+        t0 = performance.now() - time * 1000;
+        lastNow = performance.now();
+        running = true;
+        raf = requestAnimationFrame(frame);
+      }
+
+      sizeCanvas();
+      initParticles();
+      ctx.fillStyle = "#090A0D";
+      ctx.fillRect(0, 0, w, h);
+      if (reduce) drawStatic(); else resume();
+
+      window.addEventListener("resize", function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () {
           sizeCanvas();
           initParticles();
-          ctx.fillStyle = "#090A0D";
-          ctx.fillRect(0, 0, w, h);
-          t0 = performance.now();
-          running = true;
-          raf = requestAnimationFrame(frame);
-        }
-        window.addEventListener("resize", function () {
-          clearTimeout(resizeTimer);
-          resizeTimer = setTimeout(function () {
-            sizeCanvas();
-            initParticles();
-          }, 120);
+          if (reduce || !running) drawStatic();
+        }, 140);
+      }, { passive: true });
+
+      document.getElementById("hero").addEventListener("pointermove", function (e) {
+        if (e.pointerType === "touch") return;
+        var rect = canvas.getBoundingClientRect();
+        if (!rect.width || !rect.height) return;
+        mouse.x = (e.clientX - rect.left) / rect.width;
+        mouse.y = (e.clientY - rect.top) / rect.height;
+        mouse.active = true;
+      }, { passive: true });
+      document.getElementById("hero").addEventListener("pointerleave", function () { mouse.active = false; });
+
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) pause(); else resume();
+      });
+      if ("IntersectionObserver" in window) {
+        new IntersectionObserver(function (entries) {
+          inView = entries[0].isIntersecting;
+          if (inView) resume(); else pause();
+        }, { threshold: 0 }).observe(document.getElementById("hero"));
+      }
+      motionQuery.addEventListener("change", function (e) {
+        reduce = e.matches;
+        pause();
+        if (reduce) drawStatic(); else resume();
+      });
+    })();
+
+    /* ============================================================
+       INTELLIGENCE LAYER
+       Native scroll progression, deterministic abstract visuals,
+       and real public snapshots with explicit unavailable states.
+       ============================================================ */
+    (function () {
+      "use strict";
+
+      var motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      var reduced = motionQuery.matches;
+      var TAU = Math.PI * 2;
+      var raf = 0, lastFrame = 0, dirty = true, resizePending = false;
+      var headerHeight = 88;
+      var announcement = document.getElementById("scene-announcement");
+
+      function clamp(v, low, high) {
+        return Math.max(low === undefined ? 0 : low, Math.min(high === undefined ? 1 : high, v));
+      }
+      function mix(a, b, t) { return a + (b - a) * t; }
+      function smooth(a, b, value) {
+        var t = clamp((value - a) / (b - a));
+        return t * t * (3 - 2 * t);
+      }
+      function easeToward(value, target, dt, duration) {
+        return value + (target - value) * (1 - Math.exp(-dt / duration));
+      }
+      function randomGenerator(seed) {
+        return function () {
+          seed = (Math.imul(1664525, seed) + 1013904223) | 0;
+          return (seed >>> 0) / 4294967296;
+        };
+      }
+      function makeParticles(count, seed) {
+        var random = randomGenerator(seed);
+        return Array.from({ length: count }, function (_, i) {
+          return { u: random(), v: random(), a: random(), b: random(), c: random(), group: i % 5 };
         });
-        start();
+      }
+      function pointRelative(element, canvasRect, bottom) {
+        var r = element.getBoundingClientRect();
+        return { x: r.left + r.width / 2 - canvasRect.left, y: (bottom ? r.bottom : r.top + r.height / 2) - canvasRect.top };
+      }
+      function quadratic(a, control, b, t) {
+        var q = 1 - t;
+        return {
+          x: q * q * a.x + 2 * q * t * control.x + t * t * b.x,
+          y: q * q * a.y + 2 * q * t * control.y + t * t * b.y
+        };
+      }
+      function dot(ctx, x, y, radius, color) {
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, TAU);
+        ctx.fillStyle = color;
+        ctx.fill();
+      }
+      function wake() {
+        if (!raf && !document.hidden) raf = requestAnimationFrame(tick);
       }
 
-      /* ============================================================
-         SEE Section Visual Graph Canvas
-         ============================================================ */
-      var seeCanvas = document.getElementById("see-graph-canvas");
-      if (seeCanvas) {
-        var sCtx = seeCanvas.getContext("2d");
-        var sW = 0, sH = 0;
+      var scenes = ["market", "see", "understand", "signal"].map(function (id, index) {
+        var section = document.getElementById(id);
+        var canvas = section.querySelector("canvas");
+        return {
+          id: id,
+          section: section,
+          frame: section.querySelector(".scene-frame"),
+          canvas: canvas,
+          ctx: canvas.getContext("2d"),
+          w: 1, h: 1, p: 0, target: 0, visible: false, wasVisible: false,
+          sticky: false, frameHeight: 0, lastScrollStep: -1,
+          particles: makeParticles([144, 72, 110, 420][index], 317 + index * 809),
+          points: [], contextMix: 0, signalMix: 0.25
+        };
+      });
+      var sceneMap = {};
+      scenes.forEach(function (scene) { sceneMap[scene.id] = scene; });
 
-        function resizeSeeCanvas() {
-          var rect = seeCanvas.getBoundingClientRect();
-          sW = rect.width;
-          sH = rect.height;
-          seeCanvas.width = sW * (window.devicePixelRatio || 1);
-          seeCanvas.height = sH * (window.devicePixelRatio || 1);
-          sCtx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
-        }
-
-        function drawSeeGraph() {
-          if (!sW || !sH) return;
-          sCtx.clearRect(0, 0, sW, sH);
-
-          // Grid lines
-          sCtx.strokeStyle = "rgba(242, 240, 233, 0.04)";
-          sCtx.lineWidth = 1;
-          for (var x = 0; x < sW; x += 40) {
-            sCtx.beginPath();
-            sCtx.moveTo(x, 0);
-            sCtx.lineTo(x, sH);
-            sCtx.stroke();
-          }
-
-          // Dynamic telemetry curve
-          sCtx.beginPath();
-          var points = 30;
-          var timeAcc = Date.now() * 0.0015;
-          for (var i = 0; i <= points; i++) {
-            var px = (i / points) * sW;
-            var py = sH * 0.5 + Math.sin(i * 0.4 + timeAcc) * 25 + Math.cos(i * 0.2 - timeAcc * 0.8) * 15;
-            if (i === 0) sCtx.moveTo(px, py);
-            else sCtx.lineTo(px, py);
-          }
-          sCtx.strokeStyle = "rgba(214, 181, 106, 0.6)";
-          sCtx.lineWidth = 1.5;
-          sCtx.stroke();
-
-          requestAnimationFrame(drawSeeGraph);
-        }
-
-        window.addEventListener("resize", resizeSeeCanvas);
-        resizeSeeCanvas();
-        drawSeeGraph();
+      /* Reveals are independent of canvas support. */
+      var revealElements = document.querySelectorAll(".reveal");
+      if ("IntersectionObserver" in window && !reduced) {
+        var revealObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.08, rootMargin: "0px 0px -3% 0px" });
+        revealElements.forEach(function (element) { revealObserver.observe(element); });
+      } else {
+        revealElements.forEach(function (element) { element.classList.add("is-visible"); });
       }
 
-      /* ============================================================
-         SIGNAL Extraction Canvas Visual
-         ============================================================ */
-      var sigCanvas = document.getElementById("signal-extraction-canvas");
-      if (sigCanvas) {
-        var sigCtx = sigCanvas.getContext("2d");
-        var sigW = 0, sigH = 0;
-        var noiseDots = [];
-        var signalNodes = [];
+      /* Selective observation — no fabricated prices or measurements. */
+      var feeds = [
+        { name: "BTC", concept: "Price discovery", detail: "Spot price · USD", state: "idle", quote: null },
+        { name: "ETH", concept: "Network value", detail: "Spot price · USD", state: "idle", quote: null },
+        { name: "Total Market Cap", concept: "The wider market", detail: "Total crypto market capitalization · USD", state: "idle", quote: null },
+        { name: "BTC Dominance", concept: "Relative weight", detail: "BTC share of total crypto market capitalization", state: "idle", quote: null },
+        { name: "Volatility", concept: "Market dispersion", detail: "BTC · realized volatility, annualized", state: "idle", quote: null },
+        { name: "Funding", concept: "The cost of positioning", detail: "BTCUSDT perpetual · latest funding rate", state: "idle", quote: null },
+        { name: "Open Interest", concept: "Open positioning", detail: "BTCUSDT perpetual · open interest in BTC", state: "idle", quote: null },
+        { name: "Stablecoin Flows", concept: "Capital movement", detail: "Stablecoin movement across the market", state: "concept", quote: null },
+        { name: "Macro", concept: "The wider context", detail: "The forces beyond the market", state: "concept", quote: null }
+      ];
 
-        function initSignalCanvas() {
-          var rect = sigCanvas.getBoundingClientRect();
-          sigW = rect.width;
-          sigH = rect.height;
-          sigCanvas.width = sigW * (window.devicePixelRatio || 1);
-          sigCanvas.height = sigH * (window.devicePixelRatio || 1);
-          sigCtx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+      var feedButtons = Array.from(document.querySelectorAll("[data-feed]"));
+      var focusContent = document.getElementById("focus-content");
+      var nameElement = document.getElementById("observation-name");
+      var valueElement = document.getElementById("observation-value");
+      var detailElement = document.getElementById("observation-detail");
+      var sourceElement = document.getElementById("observation-source");
+      var stateElement = document.getElementById("observation-state");
+      var stateText = document.getElementById("observation-state-text");
+      var pauseButton = document.getElementById("toggle-observation");
+      var refreshButton = document.getElementById("refresh-data");
+      var refreshStatus = document.getElementById("refresh-status");
+      var activeFeed = 0, observationPaused = false, manualUntil = 0;
+      var lastAdvance = performance.now(), switchTimer = 0;
+      var sourcesStarted = false, publicBusy = false, lastPublicCheck = 0;
+      var pendingRequests = new Map();
+      var attempts = new Map();
 
-          noiseDots = [];
-          for (var i = 0; i < 220; i++) {
-            noiseDots.push({
-              x: Math.random() * sigW,
-              y: Math.random() * sigH,
-              r: Math.random() * 1.2 + 0.4,
-              opacity: Math.random() * 0.25 + 0.05
+      var moneyFormatter = new Intl.NumberFormat("en-US", {
+        style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 2
+      });
+      var compactMoneyFormatter = new Intl.NumberFormat("en-US", {
+        style: "currency", currency: "USD", notation: "compact", maximumFractionDigits: 2
+      });
+      var quantityFormatter = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
+      var timeFormatter = new Intl.DateTimeFormat("en-GB", {
+        day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit", timeZone: "UTC"
+      });
+
+      function timeLabel(timestamp) {
+        return timeFormatter.format(new Date(timestamp)) + " UTC";
+      }
+      function validNumber(value, positive) {
+        return typeof value === "number" && Number.isFinite(value) && (!positive || value > 0);
+      }
+      function validTimestamp(value) {
+        return typeof value === "number" && Number.isFinite(value) && value > 0 ? value : Date.now();
+      }
+      function writeFocus() {
+        var feed = feeds[activeFeed];
+        nameElement.textContent = feed.name;
+        detailElement.textContent = feed.detail;
+        valueElement.classList.toggle("is-concept", !feed.quote);
+        stateElement.classList.toggle("is-connected", Boolean(feed.quote) && feed.state === "ready");
+
+        if (feed.quote) {
+          valueElement.textContent = feed.quote.value;
+          sourceElement.textContent = (feed.state === "stale" ? "Last available · " : "") +
+            feed.quote.source + " · " + timeLabel(feed.quote.at);
+          sourceElement.title = new Date(feed.quote.at).toUTCString();
+          stateText.textContent = feed.state === "stale" ? "Previous public snapshot" : "Public snapshot · not tick-by-tick";
+        } else {
+          valueElement.textContent = feed.concept;
+          sourceElement.removeAttribute("title");
+          if (feed.state === "loading") {
+            sourceElement.textContent = "Connecting to a public source…";
+            stateText.textContent = "Requesting public snapshot";
+          } else if (feed.state === "unavailable") {
+            sourceElement.textContent = "Public source unavailable · no substitute data.";
+            stateText.textContent = "Conceptual lens · source unavailable";
+          } else if (feed.state === "concept") {
+            sourceElement.textContent = "Context lens · no live source connected.";
+            stateText.textContent = "Contextual observation";
+          } else {
+            sourceElement.textContent = "Public snapshots load on demand.";
+            stateText.textContent = "Observation layer";
+          }
+        }
+      }
+      function renderFocus(animate) {
+        clearTimeout(switchTimer);
+        if (animate && !reduced) {
+          focusContent.classList.add("is-switching");
+          switchTimer = setTimeout(function () {
+            writeFocus();
+            focusContent.classList.remove("is-switching");
+          }, 180);
+        } else {
+          writeFocus();
+          focusContent.classList.remove("is-switching");
+        }
+      }
+      function announceFeed() {
+        var feed = feeds[activeFeed];
+        announcement.textContent = feed.name + ". " +
+          (feed.quote ? feed.quote.value + ". " + feed.quote.source + ", " + timeLabel(feed.quote.at) : feed.concept + ". No public numeric snapshot displayed.");
+      }
+      function selectFeed(index, manual) {
+        index = (index + feeds.length) % feeds.length;
+        if (manual) manualUntil = performance.now() + 14000;
+        lastAdvance = performance.now();
+        if (activeFeed !== index) {
+          activeFeed = index;
+          feedButtons.forEach(function (button, i) {
+            button.classList.toggle("is-active", i === index);
+            button.setAttribute("aria-pressed", String(i === index));
+          });
+          renderFocus(true);
+        }
+        ensureFeed(index, false);
+        if (manual) announceFeed();
+        wake();
+      }
+
+      async function fetchJSON(url) {
+        var controller = new AbortController();
+        var timeout = setTimeout(function () { controller.abort(); }, 8500);
+        try {
+          var response = await fetch(url, {
+            signal: controller.signal,
+            mode: "cors",
+            credentials: "omit",
+            headers: { Accept: "application/json" }
+          });
+          if (!response.ok) throw new Error("Public source unavailable");
+          return await response.json();
+        } finally {
+          clearTimeout(timeout);
+        }
+      }
+      function setQuote(index, value, source, at) {
+        feeds[index].quote = { value: value, source: source, at: validTimestamp(at) };
+        feeds[index].state = "ready";
+      }
+      function unavailable(indices) {
+        indices.forEach(function (index) {
+          feeds[index].state = feeds[index].quote ? "stale" : "unavailable";
+        });
+      }
+      function requestGroup(key, indices, url, parse, force) {
+        if (pendingRequests.has(key)) return pendingRequests.get(key);
+        if (!force && Date.now() - (attempts.get(key) || 0) < 120000) return Promise.resolve();
+
+        attempts.set(key, Date.now());
+        indices.forEach(function (index) {
+          if (!feeds[index].quote) feeds[index].state = "loading";
+        });
+        if (indices.includes(activeFeed)) renderFocus(false);
+
+        var request = (async function () {
+          try {
+            var data = await fetchJSON(url);
+            parse(data);
+          } catch (_) {
+            unavailable(indices);
+          } finally {
+            pendingRequests.delete(key);
+            if (indices.includes(activeFeed)) renderFocus(false);
+            wake();
+          }
+        })();
+
+        pendingRequests.set(key, request);
+        return request;
+      }
+      function loadPrices(force) {
+        return requestGroup(
+          "prices", [0, 1],
+          "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin%2Cethereum&vs_currencies=usd&include_last_updated_at=true",
+          function (data) {
+            ["bitcoin", "ethereum"].forEach(function (coin, index) {
+              var item = data[coin];
+              if (item && validNumber(item.usd, true)) {
+                setQuote(index, moneyFormatter.format(item.usd), "CoinGecko", item.last_updated_at ? item.last_updated_at * 1000 : Date.now());
+              } else unavailable([index]);
             });
-          }
+          }, force
+        );
+      }
+      function loadGlobal(force) {
+        return requestGroup(
+          "global", [2, 3],
+          "https://api.coingecko.com/api/v3/global",
+          function (response) {
+            var data = response.data;
+            if (!data) throw new Error("Invalid public response");
+            var at = data.updated_at ? data.updated_at * 1000 : Date.now();
+            var cap = data.total_market_cap && data.total_market_cap.usd;
+            var dominance = data.market_cap_percentage && data.market_cap_percentage.btc;
+            if (validNumber(cap, true)) setQuote(2, compactMoneyFormatter.format(cap), "CoinGecko", at);
+            else unavailable([2]);
+            if (validNumber(dominance, true) && dominance <= 100) setQuote(3, dominance.toFixed(2) + "%", "CoinGecko", at);
+            else unavailable([3]);
+          }, force
+        );
+      }
+      function loadVolatility(force) {
+        return requestGroup(
+          "volatility", [4],
+          "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=30&interval=daily",
+          function (data) {
+            if (!Array.isArray(data.prices)) throw new Error("Missing historical data");
+            var raw = data.prices.filter(function (point) {
+              return Array.isArray(point) && validNumber(point[0], true) && validNumber(point[1], true);
+            }).sort(function (a, b) { return a[0] - b[0]; });
+            var daily = [];
+            raw.forEach(function (point) {
+              if (!daily.length || point[0] - daily[daily.length - 1][0] >= 20 * 60 * 60 * 1000) daily.push(point);
+            });
+            if (daily.length < 21) throw new Error("Insufficient observations");
+            var returns = [];
+            for (var i = 1; i < daily.length; i++) returns.push(Math.log(daily[i][1] / daily[i - 1][1]));
+            var mean = returns.reduce(function (sum, value) { return sum + value; }, 0) / returns.length;
+            var variance = returns.reduce(function (sum, value) { return sum + Math.pow(value - mean, 2); }, 0) / (returns.length - 1);
+            var annualized = Math.sqrt(variance * 365) * 100;
+            if (!validNumber(annualized, false)) throw new Error("Invalid calculation");
+            setQuote(4, annualized.toFixed(1) + "%", "Calculated · CoinGecko", daily[daily.length - 1][0]);
+          }, force
+        );
+      }
+      function loadFunding(force) {
+        return requestGroup(
+          "funding", [5],
+          "https://fapi.binance.com/fapi/v1/premiumIndex?symbol=BTCUSDT",
+          function (data) {
+            if (data.lastFundingRate === undefined || data.lastFundingRate === null) throw new Error("Missing rate");
+            var rate = Number(data.lastFundingRate);
+            if (!Number.isFinite(rate)) throw new Error("Invalid rate");
+            setQuote(5, (rate * 100).toFixed(4) + "%", "Binance Futures", Number(data.time) || Date.now());
+          }, force
+        );
+      }
+      function loadInterest(force) {
+        return requestGroup(
+          "interest", [6],
+          "https://fapi.binance.com/fapi/v1/openInterest?symbol=BTCUSDT",
+          function (data) {
+            if (data.openInterest === undefined || data.openInterest === null) throw new Error("Missing open interest");
+            var amount = Number(data.openInterest);
+            if (!Number.isFinite(amount) || amount < 0) throw new Error("Invalid open interest");
+            setQuote(6, quantityFormatter.format(amount) + " BTC", "Binance Futures", Number(data.time) || Date.now());
+          }, force
+        );
+      }
+      function ensureFeed(index, force) {
+        if (index < 2) return loadPrices(force);
+        if (index < 4) return loadGlobal(force);
+        if (index === 4) return loadVolatility(force);
+        if (index === 5) return loadFunding(force);
+        if (index === 6) return loadInterest(force);
+        return Promise.resolve();
+      }
+      async function refreshPublic(manual) {
+        if (publicBusy) return;
+        publicBusy = true;
+        sourcesStarted = true;
+        lastPublicCheck = Date.now();
+        refreshButton.disabled = true;
+        if (manual) refreshStatus.textContent = "Checking public sources…";
 
-          signalNodes = [
-            { x: sigW * 0.25, y: sigH * 0.4, vx: 0.2, vy: -0.15 },
-            { x: sigW * 0.55, y: sigH * 0.65, vx: -0.1, vy: 0.2 },
-            { x: sigW * 0.8, y: sigH * 0.35, vx: 0.15, vy: -0.1 }
-          ];
+        try {
+          var jobs = [loadPrices(Boolean(manual)), loadGlobal(Boolean(manual))];
+          if (attempts.has("volatility")) jobs.push(loadVolatility(Boolean(manual)));
+          if (attempts.has("funding")) jobs.push(loadFunding(Boolean(manual)));
+          if (attempts.has("interest")) jobs.push(loadInterest(Boolean(manual)));
+          await Promise.all(jobs);
+          var hasData = feeds.some(function (feed) { return feed.state === "ready"; });
+          refreshStatus.textContent = hasData
+            ? "Public snapshots checked. Each displayed value includes its source and time."
+            : "Public sources are unavailable here. Conceptual lenses remain available; no numbers have been invented.";
+        } finally {
+          publicBusy = false;
+          refreshButton.disabled = false;
         }
-
-        function drawSignalExtraction() {
-          sigCtx.clearRect(0, 0, sigW, sigH);
-
-          // Draw Faint Noise
-          for (var i = 0; i < noiseDots.length; i++) {
-            var d = noiseDots[i];
-            sigCtx.fillStyle = "rgba(242, 240, 233, " + d.opacity + ")";
-            sigCtx.beginPath();
-            sigCtx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-            sigCtx.fill();
-          }
-
-          // Move and Draw Golden Signal Nodes
-          sigCtx.strokeStyle = "rgba(214, 181, 106, 0.8)";
-          sigCtx.lineWidth = 1.2;
-          sigCtx.beginPath();
-
-          for (var j = 0; j < signalNodes.length; j++) {
-            var node = signalNodes[j];
-            node.x += node.vx;
-            node.y += node.vy;
-
-            if (node.x < 50 || node.x > sigW - 50) node.vx *= -1;
-            if (node.y < 50 || node.y > sigH - 50) node.vy *= -1;
-
-            if (j === 0) sigCtx.moveTo(node.x, node.y);
-            else sigCtx.lineTo(node.x, node.y);
-          }
-          sigCtx.stroke();
-
-          // Render Signal Glow Points
-          for (var k = 0; k < signalNodes.length; k++) {
-            var n = signalNodes[k];
-            sigCtx.fillStyle = "#D6B56A";
-            sigCtx.beginPath();
-            sigCtx.arc(n.x, n.y, 4, 0, Math.PI * 2);
-            sigCtx.fill();
-
-            sigCtx.fillStyle = "rgba(214, 181, 106, 0.25)";
-            sigCtx.beginPath();
-            sigCtx.arc(n.x, n.y, 12, 0, Math.PI * 2);
-            sigCtx.fill();
-          }
-
-          requestAnimationFrame(drawSignalExtraction);
-        }
-
-        window.addEventListener("resize", initSignalCanvas);
-        initSignalCanvas();
-        drawSignalExtraction();
       }
 
+      feedButtons.forEach(function (button, index) {
+        button.addEventListener("click", function () { selectFeed(index, true); });
+      });
+      document.getElementById("previous-observation").addEventListener("click", function () { selectFeed(activeFeed - 1, true); });
+      document.getElementById("next-observation").addEventListener("click", function () { selectFeed(activeFeed + 1, true); });
+      pauseButton.addEventListener("click", function () {
+        observationPaused = !observationPaused;
+        pauseButton.classList.toggle("is-paused", observationPaused);
+        var label = observationPaused ? "Resume automatic observation" : "Pause automatic observation";
+        pauseButton.setAttribute("aria-label", label);
+        pauseButton.title = label;
+        lastAdvance = performance.now();
+        announcement.textContent = observationPaused ? "Automatic observation paused. Select any lens to explore it." : "Automatic observation resumed.";
+        wake();
+      });
+      refreshButton.addEventListener("click", function () { refreshPublic(true); });
+      document.querySelector(".source-disclosure").addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+          this.open = false;
+          this.querySelector("summary").focus();
+        }
+      });
+
+      /* Manual stage exploration; native scroll resumes the sequence. */
+      var stageButtons = Array.from(document.querySelectorAll("[data-stage]"));
+      var transformWords = Array.from(document.querySelectorAll(".transform-word"));
+      var contextTokens = Array.from(document.querySelectorAll(".context-token"));
+      var contextCore = document.querySelector(".context-core");
+      var contextOutput = document.querySelector(".context-output");
+      var contextOverride = null, contextOverrideAnchor = 0, lastStage = -1;
+      var stageDescriptions = [
+        "Data. Individual inputs remain separate.",
+        "Analysis. Relationships begin to emerge between inputs.",
+        "Context. Each input is placed in a wider market environment.",
+        "Relationships. Price, momentum, liquidity, macro, and structure become connected.",
+        "Signal. Connected inputs are interpreted as a market context."
+      ];
+
+      function updateStageUI(index) {
+        if (lastStage === index) return;
+        lastStage = index;
+        stageButtons.forEach(function (button, i) {
+          button.classList.toggle("is-active", i === index);
+          button.classList.toggle("is-past", i < index);
+          button.setAttribute("aria-pressed", String(i === index));
+        });
+      }
+      stageButtons.forEach(function (button, index) {
+        button.addEventListener("click", function () {
+          contextOverride = index / 4;
+          contextOverrideAnchor = sceneMap.understand.target;
+          updateStageUI(index);
+          announcement.textContent = stageDescriptions[index];
+          wake();
+        });
+        button.addEventListener("keydown", function (event) {
+          var next = index;
+          if (event.key === "ArrowRight") next = (index + 1) % 5;
+          else if (event.key === "ArrowLeft") next = (index + 4) % 5;
+          else if (event.key === "Home") next = 0;
+          else if (event.key === "End") next = 4;
+          else return;
+          event.preventDefault();
+          stageButtons[next].focus();
+          stageButtons[next].click();
+        });
+      });
+
+      /* Signal comparison is illustrative, never a market claim. */
+      var noiseVisible = false;
+      var signalButton = document.getElementById("signal-toggle");
+      var signalButtonLabel = document.getElementById("signal-toggle-label");
+      var signalNodes = Array.from(document.querySelectorAll(".signal-node"));
+      var marketLabels = Array.from(document.querySelectorAll(".market-signal"));
+      var fragmentPositions = [
+        [0.11, 0.27, -7], [0.39, 0.15, 5], [0.23, 0.72, -4], [0.69, 0.22, 6],
+        [0.59, 0.79, -5], [0.87, 0.71, 4], [0.16, 0.50, 3], [0.85, 0.41, -4]
+      ];
+      signalButton.addEventListener("click", function () {
+        noiseVisible = !noiseVisible;
+        signalButton.setAttribute("aria-pressed", String(noiseVisible));
+        signalButtonLabel.textContent = noiseVisible ? "Return to signal" : "Reveal the noise";
+        announcement.textContent = noiseVisible
+          ? "Background fragments revealed for comparison."
+          : "Focus restored. A few contextual elements remain emphasized.";
+        wake();
+      });
+
+      /* Measurement occurs only on resize, font readiness, and scrolling. */
+      function measureAll() {
+        headerHeight = document.getElementById("site-header").getBoundingClientRect().height;
+        scenes.forEach(function (scene) {
+          var rect = scene.canvas.getBoundingClientRect();
+          scene.w = Math.max(1, rect.width);
+          scene.h = Math.max(1, rect.height);
+          var dpr = Math.min(window.devicePixelRatio || 1, 2);
+          scene.canvas.width = Math.round(scene.w * dpr);
+          scene.canvas.height = Math.round(scene.h * dpr);
+          if (scene.ctx) scene.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          scene.sticky = getComputedStyle(scene.frame).position === "sticky";
+          scene.frameHeight = scene.frame.getBoundingClientRect().height;
+
+          if (scene.id === "market") {
+            var columns = scene.w > 860 ? 8 : 4;
+            scene.targets = marketLabels.map(function (_, i) {
+              return {
+                x: (i % columns + 0.5) / columns,
+                y: columns === 8 ? 0.47 : (i < 4 ? 0.29 : 0.71)
+              };
+            });
+            if (scene.ctx) document.querySelector(".market-visual").classList.add("is-animated");
+          }
+          if (scene.id === "see") {
+            scene.points = feedButtons.map(function (button) { return pointRelative(button.querySelector(".node-dot"), rect); });
+            scene.focus = pointRelative(document.querySelector(".observation-focus"), rect);
+          }
+          if (scene.id === "understand") {
+            scene.points = contextTokens.map(function (token) {
+              var point = pointRelative(token, rect, true);
+              point.y += 12;
+              return point;
+            });
+            scene.core = pointRelative(contextCore, rect);
+          }
+          if (scene.id === "signal") {
+            scene.points = signalNodes.map(function (node) { return pointRelative(node.querySelector(".node-dot"), rect); });
+          }
+        });
+        dirty = true;
+      }
+
+      function updateTargets() {
+        var vh = window.innerHeight;
+        var now = performance.now();
+        scenes.forEach(function (scene) {
+          var rect = scene.section.getBoundingClientRect();
+          var frameRect = scene.frame.getBoundingClientRect();
+          scene.visible = rect.bottom > headerHeight && rect.top < vh &&
+            frameRect.bottom > headerHeight && frameRect.top < vh;
+
+          var progress;
+          if (reduced) {
+            progress = 1;
+          } else if (scene.sticky) {
+            progress = clamp((headerHeight - rect.top) / Math.max(1, rect.height - scene.frameHeight));
+          } else {
+            var visualRect = scene.canvas.getBoundingClientRect();
+            progress = clamp((vh * 0.8 - visualRect.top) / (visualRect.height + vh * 0.3));
+          }
+          scene.target = progress;
+
+          if (scene.id === "see" && scene.visible) {
+            if (!scene.wasVisible) lastAdvance = now;
+            if (!sourcesStarted) refreshPublic(false);
+            var step = Math.min(8, Math.floor(progress * 9));
+            if (!reduced && !observationPaused && now > manualUntil && step !== scene.lastScrollStep) selectFeed(step, false);
+            scene.lastScrollStep = step;
+          }
+          if (scene.id === "understand" && contextOverride !== null &&
+              Math.abs(progress - contextOverrideAnchor) > 0.09) {
+            contextOverride = null;
+          }
+          scene.wasVisible = scene.visible;
+        });
+        dirty = false;
+      }
+
+      /* 01 — Fragmented information settles into a quiet, ordered line. */
+      function drawMarket(scene, time) {
+        var ctx = scene.ctx, w = scene.w, h = scene.h;
+        var order = smooth(0.04, 0.86, scene.p);
+        ctx.clearRect(0, 0, w, h);
+        ctx.lineWidth = 0.65;
+
+        marketLabels.forEach(function (label, i) {
+          var from = fragmentPositions[i], to = scene.targets[i];
+          label.style.left = (mix(from[0], to.x, order) * 100).toFixed(3) + "%";
+          label.style.top = (mix(from[1], to.y, order) * 100).toFixed(3) + "%";
+          label.style.transform = "translate(-50%, -50%) rotate(" + (from[2] * (1 - order)).toFixed(2) + "deg)";
+          label.style.opacity = (0.34 + order * 0.66).toFixed(3);
+        });
+
+        var rows = w > 860 ? 1 : 2;
+        for (var row = 0; row < rows; row++) {
+          var y = (rows === 1 ? 0.47 : row === 0 ? 0.29 : 0.71) * h + 29;
+          var gradient = ctx.createLinearGradient(0, 0, w, 0);
+          gradient.addColorStop(0, "rgba(214,181,106,0)");
+          gradient.addColorStop(0.18, "rgba(214,181,106," + order * 0.24 + ")");
+          gradient.addColorStop(0.82, "rgba(214,181,106," + order * 0.24 + ")");
+          gradient.addColorStop(1, "rgba(214,181,106,0)");
+          ctx.strokeStyle = gradient;
+          ctx.beginPath(); ctx.moveTo(w * 0.025, y); ctx.lineTo(w * 0.975, y); ctx.stroke();
+        }
+
+        scene.particles.forEach(function (particle, i) {
+          var target = scene.targets[i % 8];
+          var spread = w > 860 ? 0.1 : 0.21;
+          var tx = (target.x + (particle.a - 0.5) * spread) * w;
+          var ty = target.y * h + 29 + (particle.b - 0.5) * 8;
+          var rx = particle.u * w + Math.sin(time * 0.17 + particle.b * TAU) * 9;
+          var ry = (0.08 + particle.v * 0.83) * h + Math.cos(time * 0.13 + particle.a * TAU) * 5;
+          var x = mix(rx, tx, order), y = mix(ry, ty, order);
+          var isGold = particle.c > 0.7;
+          var alpha = 0.055 + particle.a * 0.1 + order * (isGold ? 0.2 : 0.025);
+          var color = (isGold ? "rgba(214,181,106," : "rgba(242,240,233,") + alpha + ")";
+          if (i % 5 === 0) {
+            ctx.strokeStyle = color;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x + (4 + particle.b * 12) * (1 - order * 0.55), y);
+            ctx.stroke();
+          } else dot(ctx, x, y, 0.55 + particle.c * 0.45, color);
+        });
+      }
+
+      /* 02 — Continuous orbital attention; only one numeric value is shown. */
+      function drawObservation(scene, time) {
+        var ctx = scene.ctx, w = scene.w, h = scene.h, center = scene.focus;
+        ctx.clearRect(0, 0, w, h);
+        ctx.lineWidth = 0.6;
+
+        var glow = ctx.createRadialGradient(center.x, center.y, 8, center.x, center.y, Math.min(w * 0.4, h * 0.8));
+        glow.addColorStop(0, "rgba(214,181,106,0.032)");
+        glow.addColorStop(1, "rgba(214,181,106,0)");
+        ctx.fillStyle = glow;
+        ctx.fillRect(0, 0, w, h);
+
+        [0.67, 0.86, 1].forEach(function (scale, i) {
+          ctx.beginPath();
+          ctx.ellipse(w * 0.5, h * 0.51, w * 0.43 * scale, h * 0.44 * scale, -0.035, 0, TAU);
+          ctx.strokeStyle = i === 1 ? "rgba(214,181,106,0.095)" : "rgba(242,240,233,0.046)";
+          ctx.stroke();
+        });
+
+        scene.particles.forEach(function (particle, i) {
+          var angle = particle.u * TAU + time * (0.013 + particle.a * 0.014);
+          var scale = 0.64 + particle.v * 0.39;
+          var x = w * 0.5 + Math.cos(angle) * w * 0.43 * scale;
+          var y = h * 0.51 + Math.sin(angle) * h * 0.44 * scale;
+          dot(ctx, x, y, i % 11 === 0 ? 1.1 : 0.6, i % 11 === 0 ? "rgba(214,181,106,0.35)" : "rgba(242,240,233,0.12)");
+        });
+
+        scene.points.forEach(function (point, i) {
+          var dx = point.x - center.x, dy = point.y - center.y;
+          var len = Math.max(1, Math.hypot(dx, dy));
+          var end = {
+            x: center.x + dx / len * Math.min(100, w * 0.19),
+            y: center.y + dy / len * 53
+          };
+          var control = { x: mix(point.x, end.x, 0.5), y: mix(point.y, center.y, 0.8) };
+          var active = i === activeFeed;
+          ctx.beginPath();
+          ctx.moveTo(point.x, point.y);
+          ctx.quadraticCurveTo(control.x, control.y, end.x, end.y);
+          ctx.strokeStyle = active ? "rgba(214,181,106,0.32)" : "rgba(242,240,233,0.035)";
+          ctx.stroke();
+
+          if (active) {
+            var traveling = quadratic(point, control, end, reduced ? 0.55 : (time * 0.11) % 1);
+            dot(ctx, traveling.x, traveling.y, 1.65, "rgba(214,181,106,0.8)");
+            dot(ctx, traveling.x, traveling.y, 5, "rgba(214,181,106,0.045)");
+          }
+        });
+
+        var scanAngle = time * 0.08 + scene.p * 1.2;
+        ctx.beginPath();
+        ctx.ellipse(w * 0.5, h * 0.51, w * 0.43 * 0.86, h * 0.44 * 0.86, -0.035, scanAngle, scanAngle + 0.42);
+        ctx.strokeStyle = "rgba(214,181,106,0.28)";
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      }
+
+      /* 03 — Raw data → relationships → context → interpretation. */
+      function drawContext(scene, time, dt) {
+        var ctx = scene.ctx, w = scene.w, h = scene.h;
+        var desired = contextOverride === null ? scene.p : contextOverride;
+        scene.contextMix = reduced ? desired : easeToward(scene.contextMix, desired, dt, 240);
+        var p = scene.contextMix;
+        var gathering = smooth(0.02, 0.52, p);
+        var relationships = smooth(0.2, 0.8, p);
+        var interpretation = smooth(0.6, 1, p);
+        var center = scene.core;
+        ctx.clearRect(0, 0, w, h);
+
+        updateStageUI(contextOverride === null ? Math.min(4, Math.floor(p * 4 + 0.35)) : Math.round(contextOverride * 4));
+        var transformIndex = Math.min(3, Math.floor(p * 3 + 0.32));
+        transformWords.forEach(function (word, i) { word.classList.toggle("is-active", i === transformIndex); });
+        contextTokens.forEach(function (token) { token.style.opacity = (0.58 + gathering * 0.42).toFixed(3); });
+        contextCore.style.opacity = (0.14 + relationships * 0.86).toFixed(3);
+        contextOutput.style.opacity = (0.24 + interpretation * 0.76).toFixed(3);
+
+        ctx.lineWidth = 0.65;
+        if (relationships > 0.01) {
+          ctx.strokeStyle = "rgba(214,181,106," + relationships * 0.105 + ")";
+          ctx.beginPath();
+          ctx.ellipse(center.x, center.y - 4, w * 0.31, h * 0.25, 0, 0, TAU);
+          ctx.stroke();
+        }
+
+        var positions = scene.particles.map(function (particle) {
+          var source = scene.points[particle.group];
+          var target = { x: center.x + (particle.a - 0.5) * 45, y: center.y + (particle.b - 0.5) * 38 };
+          var control = { x: mix(source.x, center.x, 0.33), y: center.y };
+          var curve = quadratic(source, control, target, 0.12 + particle.c * 0.86);
+          var clusterX = source.x + (particle.a - 0.5) * Math.min(90, w * 0.17);
+          var clusterY = source.y + 37 + (particle.b - 0.5) * 52;
+          var rawX = particle.u * w;
+          var rawY = h * (0.18 + particle.v * 0.55);
+          return {
+            x: mix(mix(rawX, clusterX, gathering), curve.x, relationships) + Math.sin(time * 0.19 + particle.a * 8) * (1 - interpretation) * 2,
+            y: mix(mix(rawY, clusterY, gathering), curve.y, relationships) + Math.cos(time * 0.15 + particle.b * 8) * (1 - interpretation) * 2,
+            particle: particle
+          };
+        });
+
+        positions.forEach(function (point, i) {
+          if (i + 5 < positions.length && i % 3 !== 0) {
+            var other = positions[i + 5];
+            var distance = Math.hypot(point.x - other.x, point.y - other.y);
+            if (distance < w * 0.2) {
+              ctx.strokeStyle = "rgba(122,132,148," + (0.025 + gathering * 0.105) * (1 - interpretation * 0.6) + ")";
+              ctx.beginPath(); ctx.moveTo(point.x, point.y); ctx.lineTo(other.x, other.y); ctx.stroke();
+            }
+          }
+          var alpha = (0.1 + point.particle.a * 0.19) * (1 - interpretation * 0.6);
+          dot(ctx, point.x, point.y, 0.65 + point.particle.c * 0.5, "rgba(242,240,233," + alpha + ")");
+        });
+
+        scene.points.forEach(function (source, i) {
+          var control = { x: source.x, y: center.y - 5 };
+          var end = { x: center.x + (i - 2) * 4, y: center.y };
+          var reveal = smooth(i * 0.035 + 0.2, 0.82, p);
+          ctx.beginPath();
+          ctx.moveTo(source.x, source.y);
+          for (var step = 1; step <= 36; step++) {
+            var point = quadratic(source, control, end, (step / 36) * reveal);
+            ctx.lineTo(point.x, point.y);
+          }
+          ctx.strokeStyle = "rgba(214,181,106," + (0.08 + relationships * 0.34) + ")";
+          ctx.lineWidth = 0.7;
+          ctx.stroke();
+          dot(ctx, source.x, source.y, 1.3, "rgba(214,181,106," + (0.1 + relationships * 0.5) + ")");
+
+          if (reveal > 0.65) {
+            var t = reduced ? 0.65 : ((time * 0.105 + i * 0.18) % 1) * reveal;
+            var traveling = quadratic(source, control, end, t);
+            dot(ctx, traveling.x, traveling.y, 1.5, "rgba(214,181,106," + relationships * 0.72 + ")");
+          }
+        });
+
+        ctx.strokeStyle = "rgba(214,181,106," + interpretation * 0.28 + ")";
+        ctx.lineWidth = 0.6;
+        ctx.beginPath();
+        ctx.arc(center.x, center.y, 37 + (1 - interpretation) * 8, 0, TAU);
+        ctx.stroke();
+      }
+
+      /* 04 — Hundreds of abstract marks; only a few contextual anchors. */
+      var fieldTokens = ["PRICE", "Δ", "FLOW", "MACRO", "ρ", "ETH", "BTC", "σ", "LIQUIDITY", "STRUCTURE", "MOMENTUM", "SENTIMENT"];
+      function drawSignal(scene, time, dt) {
+        var ctx = scene.ctx, w = scene.w, h = scene.h;
+        var desired = noiseVisible ? 0 : 0.25 + smooth(0.02, 0.85, scene.p) * 0.75;
+        scene.signalMix = reduced ? desired : easeToward(scene.signalMix, desired, dt, 390);
+        var focus = scene.signalMix;
+        ctx.clearRect(0, 0, w, h);
+        ctx.lineWidth = 0.6;
+        ctx.font = (w < 600 ? "8" : "9") + 'px "IBM Plex Mono", monospace';
+        ctx.textBaseline = "middle";
+
+        var columns = w > 900 ? 30 : 18;
+        var rows = Math.ceil(scene.particles.length / columns);
+        scene.particles.forEach(function (particle, i) {
+          var nx = ((i % columns) + 0.1 + particle.u * 0.8) / columns;
+          var ny = (Math.floor(i / columns) + 0.15 + particle.v * 0.7) / rows;
+          var x = nx * w + Math.sin(time * 0.12 + particle.a * TAU) * (2 + (1 - focus) * 4);
+          var y = ny * h + Math.cos(time * 0.1 + particle.b * TAU) * 3;
+          var centerMask = Math.abs(nx - 0.5) < 0.28 && Math.abs(ny - 0.48) < 0.2 ? 0.3 : 1;
+          var alpha = mix(0.12 + particle.a * 0.13, 0.015 + particle.a * 0.02, focus) * centerMask;
+          var color = "rgba(122,132,148," + alpha + ")";
+
+          if (i % 9 === 0) {
+            ctx.fillStyle = color;
+            ctx.fillText(fieldTokens[i % fieldTokens.length], x, y);
+          } else if (i % 3 === 0) {
+            ctx.strokeStyle = color;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x + 5 + particle.c * 14, y);
+            if (i % 6 === 0) { ctx.moveTo(x + 3, y - 3); ctx.lineTo(x + 3, y + 3); }
+            ctx.stroke();
+          } else {
+            dot(ctx, x, y, 0.5 + particle.c * 0.65, color);
+          }
+        });
+
+        scene.points.forEach(function (point, i) {
+          var emphasis = smooth(i * 0.17, 0.34 + i * 0.17, focus);
+          signalNodes[i].style.opacity = (0.15 + emphasis * 0.85).toFixed(3);
+
+          var halo = ctx.createRadialGradient(point.x, point.y, 0, point.x, point.y, 70);
+          halo.addColorStop(0, "rgba(214,181,106," + emphasis * 0.045 + ")");
+          halo.addColorStop(1, "rgba(214,181,106,0)");
+          ctx.fillStyle = halo;
+          ctx.fillRect(point.x - 70, point.y - 70, 140, 140);
+          dot(ctx, point.x, point.y, 1.8, "rgba(214,181,106," + (0.15 + emphasis * 0.7) + ")");
+
+          ctx.strokeStyle = "rgba(214,181,106," + emphasis * 0.25 + ")";
+          ctx.beginPath();
+          ctx.arc(point.x, point.y, 13, -0.3, Math.PI * 1.35);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(point.x - 33, point.y);
+          ctx.lineTo(point.x - 17, point.y);
+          ctx.stroke();
+
+          if (i < scene.points.length - 1) {
+            var next = scene.points[i + 1];
+            ctx.strokeStyle = "rgba(214,181,106," + emphasis * 0.085 + ")";
+            ctx.beginPath();
+            ctx.moveTo(point.x, point.y);
+            if (i === 0) ctx.bezierCurveTo(point.x + w * 0.18, point.y - h * 0.12, next.x - w * 0.15, next.y - h * 0.16, next.x, next.y);
+            else ctx.bezierCurveTo(next.x + w * 0.13, point.y + h * 0.12, next.x + w * 0.16, next.y - h * 0.14, next.x, next.y);
+            ctx.stroke();
+          }
+        });
+      }
+
+      function tick(now) {
+        raf = 0;
+        if (document.hidden) return;
+        var dt = Math.min(50, lastFrame ? now - lastFrame : 16.667);
+        lastFrame = now;
+
+        if (resizePending) {
+          resizePending = false;
+          measureAll();
+        }
+        if (dirty) updateTargets();
+
+        var active = false;
+        var time = reduced ? 0 : now / 1000;
+        scenes.forEach(function (scene) {
+          if (!scene.visible) return;
+          active = true;
+          scene.p = reduced ? scene.target : easeToward(scene.p, scene.target, dt, 155);
+          if (!scene.ctx) return;
+          if (scene.id === "market") drawMarket(scene, time);
+          else if (scene.id === "see") drawObservation(scene, time);
+          else if (scene.id === "understand") drawContext(scene, time, dt);
+          else if (scene.id === "signal") drawSignal(scene, time, dt);
+        });
+
+        if (sceneMap.see.visible) {
+          if (!reduced && !observationPaused && now > manualUntil && now - lastAdvance > 5800) selectFeed(activeFeed + 1, false);
+          if (sourcesStarted && !publicBusy && Date.now() - lastPublicCheck > 120000) refreshPublic(false);
+        }
+        if ((!reduced && active) || dirty || resizePending) wake();
+      }
+
+      window.addEventListener("scroll", function () { dirty = true; wake(); }, { passive: true });
+      window.addEventListener("resize", function () { resizePending = true; wake(); }, { passive: true });
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) {
+          if (raf) cancelAnimationFrame(raf);
+          raf = 0;
+          lastFrame = 0;
+        } else {
+          dirty = true;
+          lastAdvance = performance.now();
+          wake();
+        }
+      });
+      motionQuery.addEventListener("change", function (event) {
+        reduced = event.matches;
+        revealElements.forEach(function (element) { element.classList.add("is-visible"); });
+        resizePending = true;
+        dirty = true;
+        wake();
+      });
+
+      measureAll();
+      updateTargets();
+      scenes.forEach(function (scene) {
+        scene.p = scene.target;
+        scene.contextMix = scene.target;
+        scene.signalMix = reduced ? 1 : 0.25;
+      });
+      wake();
+
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function () {
+          resizePending = true;
+          wake();
+        });
+      }
+      window.addEventListener("pageshow", function () { dirty = true; resizePending = true; wake(); });
     })();
   </script>
 </body>
